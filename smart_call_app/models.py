@@ -1,8 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Model to represent each full tournament
 class Tournament(models.Model):
     name = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+
+    def __str__(self):
+        return self.name
 
 # Model to represent each pair of phones competing with each other (duels)
 class Duel(models.Model):
