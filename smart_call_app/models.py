@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Model to represent each full tournament
 class Tournament(models.Model):

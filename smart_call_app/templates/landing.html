@@ -6,7 +6,38 @@
 <body>
     <h1>Welcome to Smart Call!</h1>
     <p>This is the landing page.</p>
-    <a href="{% url 'login' %}">Login</a> | 
-    <a href="{% url 'signup' %}">Sign Up</a>
+
+    <div class="user_auth">
+
+        <!-- Login Form -->
+        <div class="box" id="loginBox">
+            <h2>Login</h2>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ login_form.as_p }}
+                <button type="submit">Log In</button>
+            </form>
+            <p> New here? <a href="#" onclick="toggleForms()">Create an account</a></p>
+        </div>
+
+        <!-- Registeration Form -->
+        <div class="box" id="registerBox">
+            <h2>Register</h2>
+            <form method="post" action="{% url 'register' %}">
+                {% csrf_token %}
+                {{ register_form.as_p }}
+                <button type="submit">Sign Up</button>
+            </form>
+            <p> Already have an account? <a href="#" onclick="toggleForms()">Log in</a></p>
+        </div>
+    </div>
+
+    <script>
+        function toggleForms() {
+            document.getElementById("loginBox").classList.toggle("hidden");
+            document.getElementById("registerBox").classList.toggle("hidden");
+        }
+    </script>
+
 </body>
 </html>
