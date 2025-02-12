@@ -2,15 +2,21 @@
 <html lang="en">
 <head>
     <title>Smart Call</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}">
 </head>
 <body>
-    <h1>Welcome to Smart Call!</h1>
-    <p>This is the landing page.</p>
 
-    <div class="user_auth">
+    <!-- Welcome message -->
+    <div class="left-content">
+        <h1>Welcome to Smart Call!</h1>
+        <p>This is the landing page.</p>
+    </div>
+    
 
+    <div class="auth-box">
         <!-- Login Form -->
-        <div class="box" id="loginBox">
+        <div id="loginBox">
             <h2>Login</h2>
             <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
@@ -21,7 +27,7 @@
         </div>
 
         <!-- Registeration Form -->
-        <div class="box" id="registerBox">
+        <div class="hidden" id="registerBox">
             <h2>Register</h2>
             <form method="post" action="{% url 'register' %}">
                 {% csrf_token %}
@@ -32,6 +38,7 @@
         </div>
     </div>
 
+    <!-- Toggle the appropriate form for what the user clicks -->
     <script>
         function toggleForms() {
             document.getElementById("loginBox").classList.toggle("hidden");

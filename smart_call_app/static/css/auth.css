@@ -1,0 +1,35 @@
+
+/* General styling for the page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Left section for landing page info */
+.left-content {
+    flex: 1; 
+    padding: 50px;
+    text-align: left;
+    max-width: 500px;
+}
+
+/* Right section box for the authentication forms */
+.auth-box {
+    width: 350px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Hide the register form by default */
+.hidden {
+    display: none;
+}
+
