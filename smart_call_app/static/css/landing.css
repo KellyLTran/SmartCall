@@ -4,10 +4,14 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: white;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #7d9ac2, #9b86c9);
+
 }
 
 /* Left section for landing page info */
@@ -18,14 +22,21 @@ body {
     max-width: 500px;
 }
 
-/* Right section box for the authentication forms */
+/* Authentication box for user login/registration */
 .auth-box {
-    width: 350px;
+    width: 400px;
+    max-width: 90%;
     padding: 20px;
     background: white;
     border-radius: 10px; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+
+    /* Center the box in the right section of the page */
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    
 }
 
 /* Hide the register form by default */
