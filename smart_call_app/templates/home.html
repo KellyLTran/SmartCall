@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tournament History</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+    <div class="home-container">
+
+        <!-- Tournament History -->
+         <div class="tournament-history">
+            <h2>Your Tournaments</h2>
+            <ul id="tournamentList">
+                <li>Tournament 1</li>
+                <li>Tournament 2</li>
+                <li>Tournament 3</li>
+            </ul>
+         </div>
+
+        <!-- Tournament Creation Form -->
+         <div class="tournament-box">
+            <h2>Create A New Tournament</h2>
+            <form method="post">
+                <input type="text" name="tournament_name" placeholder="Tournament Name">
+
+                <div id="choicesContainer">
+                    <input type="text" name="choice1" placeholder="Smartphone Choice 1">
+                    <input type="text" name="choice1" placeholder="Smartphone Choice 2">
+                </div>
+                
+                <!-- Add More Choices Button -->
+                <button type="button" class="add-choice" onclick="addChoice()">+</button>
+
+                <button type="submit">Start Tournament</button>
+            </form>
+         </div>
+    </div>
+
+    <!-- -->
+    <script>
+        function addChoice() {
+            const container = document.getElementById("choicesContainer");
+            const choiceCount = container.getElementsByTagName("input").length + 1;
+            const newInput = document.createElement("input");
+            newInput.type = "text";
+            newInput.name = "choice" + choiceCount;
+            newInput.placeholder = "Smartphone Choice " + choiceCount;
+            container.appendChild(newInput);
+        }
+        
+    </script>
+
+
+
+</body>
+</html>
