@@ -9,7 +9,14 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'password1']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Remove password confirmation field for now 
+        self.fields.pop("password2", None)  
+
 
 # Form for creating a new tournament 
 class TournamentForm(forms.ModelForm):
@@ -17,11 +24,13 @@ class TournamentForm(forms.ModelForm):
         model = Tournament
         fields = ['name']
 
+
 # Form for creating a new Duel by inputting two phones
 class DuelForm(forms.ModelForm):
     class Meta:
         model = Duel
         fields = ["phone_1", "phone_2"]
+
 
 # Form for selecting the winner of the current duel
 class WinnerForm(forms.ModelForm):

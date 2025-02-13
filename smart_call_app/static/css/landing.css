@@ -1,5 +1,5 @@
 
-/* General styling for the page */
+/* General styling for the landing page */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -10,33 +10,117 @@ body {
     justify-content: center;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(135deg, #7d9ac2, #9b86c9);
-
+    background: linear-gradient(300deg, #7d9ac2, #9b86c9);
 }
 
-/* Left section for landing page info */
+/* Left section styling for landing page info */
 .left-content {
     flex: 1; 
     padding: 50px;
-    text-align: left;
-    max-width: 500px;
+    text-align: center;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+
+    /* Center the text in the left section of the page */
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%); 
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-content h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.left-content p {
+    font-size: 22px;
+    line-height: 1.5;
+    max-width: 600px; 
 }
 
 /* Authentication box for user login/registration */
 .auth-box {
-    width: 400px;
+    width: 480px;
     max-width: 90%;
-    padding: 20px;
-    background: white;
-    border-radius: 10px; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 60px;
+    background: #9b86c9;
+    border-radius: 12px; 
+    box-shadow: 0 10px 20px rgba(120, 160, 255, 0.3);
     text-align: center;
 
+    /* Outline for the box to create contrast */
+    outline: 4px solid rgba(100, 130, 180, 0.4);
+   
     /* Center the box in the right section of the page */
     position: absolute;
-    right: 50px;
+    right: 10%;
     top: 50%;
+    transform: translateY(-50%); 
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Authentication box text styling */ 
+.auth-box h2 {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* Form labels (Username, Password, etc.) styling */
+.auth-box form label {
+    font-size: 22px;
+    font-weight: bold;
+    display: block; 
+    margin-bottom: 1px; 
+    text-align: left;
+    color: white;
+}
+
+/* Input field styling */ 
+.auth-box form input {
+    width: 100%;
+    padding: 18px;
+    margin: 8px 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 20px;
+    box-sizing: border-box; /* Line the input field with the button */
+}
+
+.auth-box form input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
     
+/* Button styling */
+.auth-box button {
+    background-color: #7C68B5; 
+    color: white;
+    padding: 18px; 
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 22px; 
+    font-weight: bold;
+}
+
+.auth-box button:hover {
+    background-color: #66539C; 
 }
 
 /* Hide the register form by default */
