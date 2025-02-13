@@ -1,7 +1,16 @@
 
+
+@font-face {
+    font-family: 'CustomFont';
+    src: url('/static/fonts/AtkinsonHyperlegibleNext.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 /* General styling for the landing page */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'CustomFont', sans-serif;
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -34,10 +43,12 @@ body {
     justify-content: center;
 }
 
+/* Welcome message text styling */
 .left-content h1 {
-    font-size: 48px;
+    font-size: 50px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    white-space: nowrap;
 }
 
 .left-content p {
@@ -72,7 +83,7 @@ body {
 
 /* Authentication box text styling */ 
 .auth-box h2 {
-    font-size: 30px;
+    font-size: 40px;
     font-weight: bold;
     color: white;
     margin-bottom: 15px;
