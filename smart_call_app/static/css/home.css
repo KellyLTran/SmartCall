@@ -49,6 +49,7 @@ body {
 }
 
 .tournament-history li {
+    font-size: 18px;
     background: rgba(255, 255, 255, 0.2);
     margin: 10px 0;
     padding: 10px;
@@ -99,3 +100,66 @@ body {
     background-color: #66539C;
 }
 
+
+/* Ensure input fields stack properly */
+#choicesContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Ensure input field and add/remove buttons are in a row */
+.choice-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    gap: 8px; 
+}
+
+.choice-wrapper input {
+    flex: 1;
+    padding: 12px;
+    max-width: 350px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 18px;
+    position: relative;
+}
+
+/* Add and remove buttons */
+.add-choice, .remove-choice {
+    background-color: #7C68B5;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    position: absolute;
+    right: -45px;
+}
+
+.add-choice {
+    right: -45px;
+}
+
+.remove-choice {
+    right: 24px;
+    bottom: 8.8px
+}
+
+.hidden {
+    display: none;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 5px;
+}

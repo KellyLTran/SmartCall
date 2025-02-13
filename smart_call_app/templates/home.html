@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Tournament History</title>
+    <title>Tournament Dashboard</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 </head>
@@ -25,34 +25,93 @@
             <form method="post">
                 <input type="text" name="tournament_name" placeholder="Tournament Name">
 
-                <div id="choicesContainer">
+                <div class="choice-wrapper" id="choicesContainer">
                     <input type="text" name="choice1" placeholder="Smartphone Choice 1">
-                    <input type="text" name="choice1" placeholder="Smartphone Choice 2">
+                    <input type="text" name="choice2" placeholder="Smartphone Choice 2">
                 </div>
-                
-                <!-- Add More Choices Button -->
-                <button type="button" class="add-choice" onclick="addChoice()">+</button>
+
+                <div class="choice-wrapper">
+                    <!-- Add a Choice Button -->
+                    <button type="button" class="add-choice" id="addBtn" onclick="addChoice()">+</button>
+                </div>
+
+                <!-- Error Message for too many choices -->
+                <p id="error-message" class="error-message hidden">You can only add up to 8 choices.</p>
 
                 <button type="submit">Start Tournament</button>
             </form>
          </div>
     </div>
 
-    <!-- -->
+    <!-- Functionality for adding and removing input fields -->
     <script>
+        let choiceCount = 2;
+    
         function addChoice() {
-            const container = document.getElementById("choicesContainer");
-            const choiceCount = container.getElementsByTagName("input").length + 1;
-            const newInput = document.createElement("input");
-            newInput.type = "text";
-            newInput.name = "choice" + choiceCount;
-            newInput.placeholder = "Smartphone Choice " + choiceCount;
-            container.appendChild(newInput);
+            if (choiceCount < 8) { 
+                document.getElementById("error-message").classList.add("hidden");
+                choiceCount++;
+    
+                // Get the choices and create a wrapper to apply styles to the input field and buttons
+                const container = document.getElementById("choicesContainer");
+                const choiceWrapper = document.createElement("div");
+                choiceWrapper.classList.add("choice-wrapper");
+                choiceWrapper.id = "choice" + choiceCount + "-container";
+    
+                // Create the new input field
+                const newInput = document.createElement("input");
+                newInput.type = "text";
+                newInput.name = "choice" + choiceCount;
+                newInput.placeholder = "Smartphone Choice " + choiceCount;
+
+                // Create the remove button and decrement choiceCount 
+                const removeBtn = document.createElement("button");
+                removeBtn.classList.add("remove-choice");
+                removeBtn.innerText = "X";
+                removeBtn.onclick = function () {
+                    choiceWrapper.remove();
+                    choiceCount--;
+                    updateAddButton();
+                };
+    
+                // Remove previous "+" button before adding a new one to the last input only
+                document.querySelectorAll(".add-choice").forEach(btn => btn.remove());
+                const addBtn = document.createElement("button");
+                addBtn.classList.add("add-choice");
+                addBtn.innerText = "+";
+                addBtn.onclick = addChoice;
+    
+                // Append elements to the wrapper
+                choiceWrapper.appendChild(newInput);
+                choiceWrapper.appendChild(removeBtn);
+                choiceWrapper.appendChild(addBtn);
+    
+                // Append the new choice to the container
+                container.appendChild(choiceWrapper);
+            }
+            else {
+                document.getElementById("error-message").classList.remove("hidden");
+                return;
+            }
         }
-        
+    
+        // Ensure the add button is displayed only on the recently added field
+        function updateAddButton() {
+
+            // Find the last choice in the list and add the "+" button
+            const existingChoices = document.querySelectorAll(".choice-wrapper");
+            if (existingChoices.length > 1) {
+                const lastChoice = existingChoices[existingChoices.length - 1];
+                if (!lastChoice.querySelector(".add-choice")) {
+                    const newAddBtn = document.createElement("button");
+                    newAddBtn.classList.add("add-choice");
+                    newAddBtn.innerText = "+";
+                    newAddBtn.onclick = addChoice;
+                    lastChoice.appendChild(newAddBtn);
+                }
+            }
+        }
     </script>
-
-
-
+    
 </body>
 </html>
