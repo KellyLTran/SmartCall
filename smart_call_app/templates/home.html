@@ -74,7 +74,7 @@
                     updateAddButton();
                 };
     
-                // Remove previous "+" button before adding a new one to the last input only
+                // Remove previous "+" button before adding a new one
                 document.querySelectorAll(".add-choice").forEach(btn => btn.remove());
                 const addBtn = document.createElement("button");
                 addBtn.classList.add("add-choice");
@@ -88,6 +88,8 @@
     
                 // Append the new choice to the container
                 container.appendChild(choiceWrapper);
+
+                updateAddButton();
             }
             else {
                 document.getElementById("error-message").classList.remove("hidden");
@@ -97,9 +99,15 @@
     
         // Ensure the add button is displayed only on the recently added field
         function updateAddButton() {
-
-            // Find the last choice in the list and add the "+" button
             const existingChoices = document.querySelectorAll(".choice-wrapper");
+
+            // Limit users to only add up to 8 choices 
+            if (choiceCount === 8) {
+                document.querySelectorAll(".add-choice").forEach(btn => btn.remove());
+                return; 
+            }
+
+            // Add the "+" button to only the last choice in the list
             if (existingChoices.length > 1) {
                 const lastChoice = existingChoices[existingChoices.length - 1];
                 if (!lastChoice.querySelector(".add-choice")) {
