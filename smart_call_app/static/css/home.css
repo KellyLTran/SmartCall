@@ -6,15 +6,14 @@
     font-style: normal;
 }
 
-
 .logout-box {
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 100px;
 }
 
 .logout-box button {
-    background-color: #7C68B5; 
+    background-color: #7C68B5 !important; 
     color: white;
     padding: 18px; 
     border: none;
@@ -33,6 +32,7 @@
 /* General styling for the home page */
 body {
     font-family: 'CustomFont', sans-serif;
+    display: flex;
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -134,12 +134,12 @@ body {
 
 /* Ensure input field and add/remove buttons are in a row */
 .choice-wrapper {
-    display: flex;
     align-items: center;
     width: 100%;
     max-width: 400px;
     position: relative;
     gap: 8px; 
+    white-space: nowrap;
 }
 
 .choice-wrapper input {
@@ -156,6 +156,7 @@ body {
 
 /* Add and remove buttons */
 .add-choice, .remove-choice {
+    position: absolute;
     background-color: #7C68B5;
     color: white;
     padding: 8px 12px;
@@ -163,26 +164,14 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 18px;
-    position: absolute;
-    right: -45px;
+    margin-left: 5px; 
 }
 
 .add-choice {
-    right: -45px;
-}
-
-.remove-choice {
-    right: 24px;
-    bottom: 8.8px
+    bottom: 8px;
+    right: -70px;
 }
 
 .hidden {
     display: none;
-}
-
-.error-message {
-    color: red;
-    font-size: 14px;
-    text-align: center;
-    margin-top: 5px;
 }
