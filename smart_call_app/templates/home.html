@@ -7,6 +7,15 @@
 </head>
 <body>
 
+    <!-- Logout Button -->
+    <div class="logout-box">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
+
     <div class="home-container">
 
         <!-- Tournament History -->
@@ -35,9 +44,6 @@
                     <button type="button" class="add-choice" id="addBtn" onclick="addChoice()">+</button>
                 </div>
 
-                <!-- Error Message for too many choices -->
-                <p id="error-message" class="error-message hidden">You can only add up to 8 choices.</p>
-
                 <button type="submit">Start Tournament</button>
             </form>
          </div>
@@ -49,7 +55,6 @@
     
         function addChoice() {
             if (choiceCount < 8) { 
-                document.getElementById("error-message").classList.add("hidden");
                 choiceCount++;
     
                 // Get the choices and create a wrapper to apply styles to the input field and buttons
@@ -90,10 +95,6 @@
                 container.appendChild(choiceWrapper);
 
                 updateAddButton();
-            }
-            else {
-                document.getElementById("error-message").classList.remove("hidden");
-                return;
             }
         }
     

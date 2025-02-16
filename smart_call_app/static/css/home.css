@@ -6,13 +6,36 @@
     font-style: normal;
 }
 
+
+.logout-box {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.logout-box button {
+    background-color: #7C68B5; 
+    color: white;
+    padding: 18px; 
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 22px; 
+    font-weight: bold;
+}
+
+.logout-box button:hover {
+    background-color: #66539C;
+}
+
 /* General styling for the home page */
 body {
     font-family: 'CustomFont', sans-serif;
     margin: 0;
     padding: 0;
     height: 100vh;
-    display: flex;
     align-items: center;
     justify-content: center;
     color: white;
