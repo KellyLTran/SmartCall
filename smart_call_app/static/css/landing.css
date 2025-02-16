@@ -1,12 +1,10 @@
 
-
 @font-face {
     font-family: 'CustomFont';
     src: url('/static/fonts/AtkinsonHyperlegibleNext.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
-
 
 /* General styling for the landing page */
 body {
