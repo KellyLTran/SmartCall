@@ -34,7 +34,8 @@
          <div class="tournament-box">
             <h2>Create A New Tournament</h2>
             <form method="post">
-                <input type="text" name="tournament_name" placeholder="Tournament Name" required>
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Tournament Name" required>
 
                 <div class="choice-wrapper" id="choicesContainer">
                     <input type="text" name="choice1" placeholder="Smartphone Choice 1">

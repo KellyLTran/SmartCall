@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, TournamentForm
-from .models import Tournament
+from .models import Tournament, Duel
 from django.contrib import messages 
 
 # Render the landing page with the user authentication forms
@@ -44,13 +44,38 @@ def register_view(request):
 @login_required
 def home_page(request):
 
-    # Allow users to create and associate a new tournament with the user using the tournament form
+    # Create and associate a new tournament with the user using the tournament form
     if request.method == 'POST':
         form = TournamentForm(request.POST)
         if form.is_valid():
             tournament = form.save(commit=False)
             tournament.user = request.user
             tournament.save()
+            
+            # Get choices from the form
+            choices = []
+            for key, value in request.POST.items():
+                if key.startswith("choice"):
+                    choices.append(value)
+
+            # Create duels from the choices for the first round
+            if len(choices) >= 2:
+                for i in range(0, len(choices), 2):  
+                    phone_1 = choices[i]
+
+                    # Assign phone_2 to the next choice unless there is an odd number of choices 
+                    if i + 1 < len(choices):
+                        phone_2 = choices[i + 1]
+                    else:
+                        phone_2 = None
+
+                    Duel.objects.create(
+                        tournament=tournament,
+                        round_number=1,
+                        phone_1=phone_1,
+                        phone_2=phone_2
+                    )
+
             return redirect('home')
     else:
         form = TournamentForm()
