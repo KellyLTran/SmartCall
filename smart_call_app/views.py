@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, TournamentForm
 from .models import Tournament, Duel
-from django.contrib import messages 
+from django.contrib import messages  
+
 
 # Render the landing page with the user authentication forms
 def landing_page(request):
@@ -76,10 +77,18 @@ def home_page(request):
                         phone_2=phone_2
                     )
 
-            return redirect('home')
+            return redirect('tournament', tournament_id=tournament.id) 
     else:
         form = TournamentForm()
 
     # Get and display previous tournaments created by the user
     user_tournaments = Tournament.objects.filter(user=request.user)
     return render(request, 'home.html', {'form': form, 'tournaments': user_tournaments})
+
+
+@login_required
+def tournament_page(request, tournament_id):
+    tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
+    duels = Duel.objects.filter(tournament=tournament).order_by('round_number')
+
+    return render(request, 'tournament.html', {'tournament': tournament, 'duels': duels})

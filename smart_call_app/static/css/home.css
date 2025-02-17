@@ -6,6 +6,27 @@
     font-style: normal;
 }
 
+/* General button style */
+.button {
+    background-color: #7C68B5;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+}
+
+.button:hover {
+    background-color: #66539C;
+}
+
+/* Logout Button */
 .logout-box {
     position: absolute;
     top: 20px;
@@ -13,20 +34,7 @@
 }
 
 .logout-box button {
-    background-color: #7C68B5 !important; 
-    color: white;
-    padding: 18px; 
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
     width: 100%;
-    margin-top: 10px;
-    font-size: 22px; 
-    font-weight: bold;
-}
-
-.logout-box button:hover {
-    background-color: #66539C;
 }
 
 /* General styling for the home page */
@@ -43,6 +51,7 @@ body {
     background: linear-gradient(300deg, #7d9ac2, #9b86c9);
 }
 
+/* Home Dashboard */ 
 .home-container {
     display: flex;
     width: 90%;
@@ -50,6 +59,7 @@ body {
     gap: 20px;
 }
 
+/* Tournament History Section */ 
 .tournament-history {
     flex: 1;
     background: rgba(255, 255, 255, 0.15);
@@ -69,17 +79,21 @@ body {
 .tournament-history ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.tournament-history li {
-    font-size: 18px;
-    background: rgba(255, 255, 255, 0.2);
+.tournament-history ul li a {
     margin: 10px 0;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
 }
 
+.tournament-history ul li a:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    background-color: #66539C;
+}
+
+
+/* Tournament Creation Section */ 
 .tournament-box {
     flex: 2;
     background: rgba(255, 255, 255, 0.15);
@@ -108,23 +122,10 @@ body {
 }
 
 .tournament-box button {
-    background-color: #7C68B5;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 18px;
-    font-weight: bold;
+    width: auto;
 }
 
-.tournament-box button:hover {
-    background-color: #66539C;
-}
-
-
-/* Ensure input fields stack properly */
+/* Input Fields for Choices */
 #choicesContainer {
     display: flex;
     flex-direction: column;
@@ -132,13 +133,12 @@ body {
     width: 100%;
 }
 
-/* Ensure input field and add/remove buttons are in a row */
 .choice-wrapper {
     align-items: center;
     width: 100%;
     max-width: 400px;
     position: relative;
-    white-space: nowrap;
+    white-space: nowrap; /* Ensure input fields and add/remove buttons are in a row */
 }
 
 .choice-wrapper input {
@@ -155,7 +155,7 @@ body {
 
 /* Add and remove buttons */
 .add-choice, .remove-choice {
-    position: absolute;
+    position: absolute; /* Ensure the buttons do not move shift the input field */
     background-color: #7C68B5;
     color: white;
     padding: 8px 12px;
@@ -164,11 +164,16 @@ body {
     cursor: pointer;
     font-size: 18px;
     margin-left: 5px; 
+    bottom: 11px;
+    height: 40px;
 }
 
 .add-choice {
-    bottom: 8px;
     right: -70px;
+}
+
+.remove-choice {
+    right: -30px;
 }
 
 .hidden {

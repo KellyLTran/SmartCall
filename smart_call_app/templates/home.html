@@ -11,7 +11,7 @@
     <div class="logout-box">
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
-            <button type="submit">Logout</button>
+            <button type="submit" class="button">Logout</button>
         </form>
     </div>
 
@@ -23,7 +23,9 @@
             <h2>Your Tournaments</h2>
             <ul id="tournamentList">
                 {% for tournament in tournaments %}
-                <li>{{ tournament.name }}</li>
+                <li>
+                    <a href="{% url 'tournament' tournament.id %}" class="button">{{ tournament.name }}</a>
+                </li>
                 {% empty %}
                 <li>You have not created any tournaments yet.</li>
                 {% endfor %}
@@ -38,8 +40,8 @@
                 <input type="text" name="name" placeholder="Tournament Name" required>
 
                 <div class="choice-wrapper" id="choicesContainer">
-                    <input type="text" name="choice1" placeholder="Smartphone Choice 1">
-                    <input type="text" name="choice2" placeholder="Smartphone Choice 2">
+                    <input type="text" name="choice1" placeholder="Smartphone Choice 1" required>
+                    <input type="text" name="choice2" placeholder="Smartphone Choice 2" required>
                 </div>
 
                 <div class="choice-wrapper">
@@ -47,7 +49,7 @@
                     <button type="button" class="add-choice" id="addBtn" onclick="addChoice()">+</button> 
                 </div>
 
-                <button type="submit">Start Tournament</button>
+                <button type="submit" class="button">Start Tournament</button>
             </form>
          </div>
     </div>
