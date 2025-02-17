@@ -91,4 +91,15 @@ def tournament_page(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
     duels = Duel.objects.filter(tournament=tournament).order_by('round_number')
 
+    # When a choice is selected as a winner in the duel, save and advance the winner
+    if request.method == "POST":
+        duel_id = request.POST.get("duel_id")
+        winner = request.POST.get("winner")
+        duel = get_object_or_404(Duel, id=duel_id, tournament=tournament)
+        duel.winner = winner
+        duel.save()
+        duel.advance_winner()
+
+        return redirect('tournament', tournament_id=tournament.id)
+
     return render(request, 'tournament.html', {'tournament': tournament, 'duels': duels})

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tournament Bracket</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tournament.css' %}">
+</head>
+<body>
+
+    <!-- Logout Button -->
+    <div class="logout-box">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="button">Logout</button>
+        </form>
+    </div>
+
+    <div class="tournament-container">
+        <h1>{{ tournament.name }} Bracket</h1>
+
+        <div class="duel-box">
+            <!-- Get and display each duel in the tournament -->
+            {% for duel in duels %} 
+                <div class="duel">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="duel_id" value="{{ duel.id }}">
+
+                        <div class="competitor-box">
+                            <label>
+                                <button type="submit" name="winner" value="{{ duel.phone_1 }}" required>
+                                <span>{{ duel.phone_1 }}</span>
+                            </label>
+                            <label>
+                                <button type="submit"  name="winner" value="{{ duel.phone_2 }}" required>
+                                <span>{{ duel.phone_2|default:"Waiting for opponent" }}</span>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+
+    <div class="back-box">
+        <a href="{% url 'home' %}" class="button">Back to Home</a>
+
+</body>
+</html>

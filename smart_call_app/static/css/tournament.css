@@ -1,0 +1,11 @@
+@import url("home.css");
+
+.back-box {
+    position: absolute;
+    top: 20px;
+    left: 100px;
+}
+
+.back-box button {
+    width: 100%;
+}
