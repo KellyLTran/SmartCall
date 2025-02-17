@@ -28,7 +28,6 @@ def login_view(request):
 
 # Handle user registration by storing new user info in the database and log the user in 
 def register_view(request):
-
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
