@@ -11,7 +11,7 @@
     <div class="logout-box">
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
-            <button type="submit">Logout</button>
+            <button type="submit" class="button">Logout</button>
         </form>
     </div>
 
@@ -22,9 +22,13 @@
          <div class="tournament-history">
             <h2>Your Tournaments</h2>
             <ul id="tournamentList">
-                <li>Tournament 1</li>
-                <li>Tournament 2</li>
-                <li>Tournament 3</li>
+                {% for tournament in tournaments %}
+                <li>
+                    <a href="{% url 'tournament' tournament.id %}" class="button">{{ tournament.name }}</a>
+                </li>
+                {% empty %}
+                <li>You have not created any tournaments yet.</li>
+                {% endfor %}
             </ul>
          </div>
 
@@ -32,11 +36,12 @@
          <div class="tournament-box">
             <h2>Create A New Tournament</h2>
             <form method="post">
-                <input type="text" name="tournament_name" placeholder="Tournament Name">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Tournament Name" required>
 
                 <div class="choice-wrapper" id="choicesContainer">
-                    <input type="text" name="choice1" placeholder="Smartphone Choice 1">
-                    <input type="text" name="choice2" placeholder="Smartphone Choice 2">
+                    <input type="text" name="choice1" placeholder="Smartphone Choice 1" required>
+                    <input type="text" name="choice2" placeholder="Smartphone Choice 2" required>
                 </div>
 
                 <div class="choice-wrapper">
@@ -44,7 +49,7 @@
                     <button type="button" class="add-choice" id="addBtn" onclick="addChoice()">+</button> 
                 </div>
 
-                <button type="submit">Start Tournament</button>
+                <button type="submit" class="button">Start Tournament</button>
             </form>
          </div>
     </div>
