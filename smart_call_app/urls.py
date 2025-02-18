@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import landing_page, login_view, register_view, home_page, tournament_page
+from .views import *
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('home/', home_page, name='home'),
     path('logout/', auth_views.LogoutView.as_view(next_page='landing'), name='logout'),
     path('tournament/<int:tournament_id>/', tournament_page, name='tournament'),
+    path('delete_tournament/<int:tournament_id>/', delete_tournament, name='delete_tournament'),
 ]

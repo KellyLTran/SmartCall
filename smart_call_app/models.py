@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 # Model to represent each full tournament
 class Tournament(models.Model):
     name = models.CharField(max_length=255)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    winner = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -22,6 +23,11 @@ class Duel(models.Model):
     def advance_winner(self):
         if self.winner: 
             next_round = self.round_number + 1
+
+            # If there is only one duel left in the final round, stop advancing
+            last_round_duels = Duel.objects.filter(tournament=self.tournament, round_number=self.round_number)
+            if last_round_duels.count() == 1:
+                return
 
             # Find an incomplete duel in this next round
             incomplete_duel = Duel.objects.filter(

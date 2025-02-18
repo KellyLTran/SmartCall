@@ -4,7 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, TournamentForm
 from .models import Tournament, Duel
-from django.contrib import messages  
+from django.contrib import messages 
+from collections import defaultdict 
 
 
 # Render the landing page with the user authentication forms
@@ -86,10 +87,29 @@ def home_page(request):
     return render(request, 'home.html', {'form': form, 'tournaments': user_tournaments})
 
 
+# Allow users to properly delete previous tournaments from the database
+@login_required
+def delete_tournament(request, tournament_id):
+    tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
+
+    if request.method == "POST":
+        tournament.delete()
+        messages.success(request, "Tournament deleted successfully.")
+        return redirect('home') 
+
+    return redirect('home')
+
+
+# Render the tournament bracket page to diplay and advance user choices
 @login_required
 def tournament_page(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
+
+    # Assign duels to their specific round
     duels = Duel.objects.filter(tournament=tournament).order_by('round_number')
+    rounds = defaultdict(list)
+    for duel in duels:
+        rounds[duel.round_number].append(duel)
 
     # When a choice is selected as a winner in the duel, save and advance the winner
     if request.method == "POST":
@@ -99,7 +119,23 @@ def tournament_page(request, tournament_id):
         duel.winner = winner
         duel.save()
         duel.advance_winner()
+        
+        # Get updated duels after advancing the winner
+        duels = Duel.objects.filter(tournament=tournament).order_by('round_number')
+        rounds = defaultdict(list)
+        for duel in duels:
+            rounds[duel.round_number].append(duel)
+
+        # If there is only one duel left in the final round, the winner selected is the final winner
+        if rounds: 
+            last_round = max(rounds)
+            if last_round and len(rounds[last_round]) == 1:
+                final_duel = rounds[last_round][0]
+                if final_duel.winner and not tournament.winner: 
+                    tournament.winner = final_duel.winner
+                    tournament.save()
+                    return redirect('tournament', tournament_id=tournament.id)
 
         return redirect('tournament', tournament_id=tournament.id)
 
-    return render(request, 'tournament.html', {'tournament': tournament, 'duels': duels})
+    return render(request, 'tournament.html', {'tournament': tournament, 'rounds': dict(rounds)})
