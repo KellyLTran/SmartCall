@@ -87,6 +87,20 @@ def home_page(request):
     return render(request, 'home.html', {'form': form, 'tournaments': user_tournaments})
 
 
+# Allow users to properly delete previous tournaments from the database
+@login_required
+def delete_tournament(request, tournament_id):
+    tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
+
+    if request.method == "POST":
+        tournament.delete()
+        messages.success(request, "Tournament deleted successfully.")
+        return redirect('home') 
+
+    return redirect('home')
+
+
+# Render the tournament bracket page to diplay and advance user choices
 @login_required
 def tournament_page(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)

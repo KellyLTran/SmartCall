@@ -26,6 +26,7 @@
     background-color: #66539C;
 }
 
+
 /* Logout Button */
 .logout-box {
     position: absolute;
@@ -78,7 +79,7 @@ body {
 
 .tournament-history ul {
     list-style: none;
-    padding: 0;
+    padding: 20x;
     margin: 0;
 }
 
@@ -92,6 +93,16 @@ body {
     background-color: #66539C;
 }
 
+.delete-button {
+    padding: 8px 12px; 
+    font-size: 16px;    
+    width: auto;        
+    display: flex;
+}
+
+.delete-button:hover {
+    background-color: darkred;
+}
 
 /* Tournament Creation Section */ 
 .tournament-box {

@@ -25,6 +25,12 @@
                 {% for tournament in tournaments %}
                 <li>
                     <a href="{% url 'tournament' tournament.id %}" class="button">{{ tournament.name }}</a>
+
+                    <!-- Delete Button -->          
+                    <form method="post" action="{% url 'delete_tournament' tournament.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="button delete-button">X</button>
+                    </form>
                 </li>
                 {% empty %}
                 <li>You have not created any tournaments yet.</li>
