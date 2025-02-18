@@ -18,6 +18,9 @@
     <div class="tournament-name">
         <h1>{{ tournament.name }} Bracket</h1>
 
+        {% if tournament.winner %}
+        <h2 class="winner-choice"> Ultimate Winner: {{ tournament.winner }}</h2>
+        {% endif %}
     </div>
 
     <div class="bracket-box">
@@ -41,7 +44,8 @@
                                     {{ duel.phone_1 }}
                                 </button>
 
-                                <button class="button {% if duel.winner == duel.phone_2 %}winner{% else %}loser{% endif %}" disabled>
+                                <button class="button {% if duel.winner == duel.phone_2 %}winner{% else %}loser{% endif %}" disabled
+                                    {% if not duel.phone_2 %}disabled{% endif %}>
                                     {{ duel.phone_2|default:"Waiting for opponent" }}
                                 </button>
 
@@ -49,8 +53,9 @@
                                 <button type="submit" class="button" name="winner" value="{{ duel.phone_1 }}" required>
                                 <span>{{ duel.phone_1 }}</span>
                 
-                                <button type="submit" class="button" name="winner" value="{{ duel.phone_2 }}" required>
-                                <span>{{ duel.phone_2|default:"Waiting for opponent" }}</span>
+                                <button type="submit" class="button {% if not duel.phone_2 %}waiting{% endif %}" name="winner" value="{{ duel.phone_2 }}" 
+                                    {% if not duel.phone_2 %}disabled{% endif %}>
+                                    {{ duel.phone_2|default:"Waiting for opponent" }}
                             {% endif %}
                         </div>
                     </form>
