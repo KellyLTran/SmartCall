@@ -21,22 +21,26 @@
         <!-- Tournament History -->
          <div class="tournament-history">
             <h2>Your Tournaments</h2>
+            
             <ul id="tournamentList">
                 {% for tournament in tournaments %}
                 <li>
-                    <a href="{% url 'tournament' tournament.id %}" class="button">{{ tournament.name }}</a>
+                    <div class="tournament-item"> 
+                        <a href="{% url 'tournament' tournament.id %}" class="button">{{ tournament.name }}</a>
 
-                    <!-- Delete Button -->          
-                    <form method="post" action="{% url 'delete_tournament' tournament.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="button delete-button">X</button>
-                    </form>
+                        <!-- Delete Button -->          
+                        <form method="post" action="{% url 'delete_tournament' tournament.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="button delete-button">X</button>
+                        </form>
+                    </div>
                 </li>
+
                 {% empty %}
                 <li>You have not created any tournaments yet.</li>
                 {% endfor %}
             </ul>
-         </div>
+        </div>
 
         <!-- Tournament Creation Form -->
          <div class="tournament-box">

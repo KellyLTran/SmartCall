@@ -15,13 +15,11 @@
         </form>
     </div>
 
-    <div class="tournament-name">
-        <h1>{{ tournament.name }} Bracket</h1>
+    <h1 class="tournament-name">{{ tournament.name }} Bracket</h1>
 
-        {% if tournament.winner %}
-            <h2 class="winner-choice"> Ultimate Winner: {{ tournament.winner }}</h2>
-        {% endif %}
-    </div>
+    {% if tournament.winner %}
+        <h2 class="tournament-name winner-choice"> Ultimate Winner: {{ tournament.winner }}</h2>
+    {% endif %}
 
     <div class="bracket-box">
 

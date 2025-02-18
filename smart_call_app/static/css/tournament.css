@@ -5,6 +5,11 @@
     bottom: 80%;
     transform: translateY(-50%); 
     text-align: center;
+    top: 110px;
+}
+
+.winner-choice {
+    top: 150px;
 }
 
 .bracket-box {
@@ -18,6 +23,7 @@
     flex-direction: column;
     gap: 50px;
     width: 280px;
+    text-align: center;
 }
 
 .duel {

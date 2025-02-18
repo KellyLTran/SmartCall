@@ -58,6 +58,7 @@ body {
     width: 90%;
     height: 80vh;
     gap: 20px;
+    font-size: 20px;
 }
 
 /* Tournament History Section */ 
@@ -72,19 +73,21 @@ body {
     overflow-y: auto;
 }
 
-.tournament-history h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
 .tournament-history ul {
     list-style: none;
-    padding: 20x;
+    padding: 0;
     margin: 0;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
 }
 
+/* Tournament history button */ 
 .tournament-history ul li a {
-    margin: 10px 0;
+    margin: 5px 0;
+    width: 100%;
+    max-width: 300px;
+    padding-left: 50px;
 }
 
 .tournament-history ul li a:hover {
@@ -93,11 +96,27 @@ body {
     background-color: #66539C;
 }
 
-.delete-button {
-    padding: 8px 12px; 
-    font-size: 16px;    
+/* Tournament item with delete button */
+.tournament-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.delete-button {  
     width: auto;        
     display: flex;
+    height: 40px;
+    background-color: #7C68B5;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 5px;
+    margin-bottom: 10px;
 }
 
 .delete-button:hover {
@@ -177,6 +196,7 @@ body {
     margin-left: 5px; 
     bottom: 11px;
     height: 40px;
+    font-weight: bold;
 }
 
 .add-choice {
