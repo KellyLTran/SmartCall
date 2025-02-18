@@ -21,34 +21,41 @@
     </div>
 
     <div class="bracket-box">
-        <!-- Get and display each duel in the tournament -->
-        {% for duel in duels %} 
-            <div class="duel">
-                <form method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="duel_id" value="{{ duel.id }}">
 
-                    <div class="competitor-box">
+        <!-- Group duels in their associated round -->
+        {% for round, round_duels in rounds.items %}
+        <div class="round-column"> 
+            <h2>Round {{ round }}</h2>
 
-                        <!-- If a duel has a winner, disable the buttons and highlight the winner -->
-                        {% if duel.winner %}
-                            <button class="button {% if duel.winner == duel.phone_1 %}winner{% else %}loser{% endif %}" disabled>
-                                {{ duel.phone_1 }}
-                            </button>
-                            
-                            <button class="button {% if duel.winner == duel.phone_2 %}winner{% else %}loser{% endif %}" disabled>
-                                {{ duel.phone_2|default:"Waiting for opponent" }}
-                            </button>
+            <!-- Get and display each duel in the tournament -->
+            {% for duel in round_duels %} 
+                <div class="duel">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="duel_id" value="{{ duel.id }}">
 
-                        {% else %}
-                            <button type="submit" class="button" name="winner" value="{{ duel.phone_1 }}" required>
-                            <span>{{ duel.phone_1 }}</span>
-            
-                            <button type="submit" class="button" name="winner" value="{{ duel.phone_2 }}" required>
-                            <span>{{ duel.phone_2|default:"Waiting for opponent" }}</span>
-                        {% endif %}
-                    </div>
-                </form>
+                        <div class="competitor-box">
+                            <!-- If a duel has a winner, disable the buttons and highlight the winner -->
+                            {% if duel.winner %}
+                                <button class="button {% if duel.winner == duel.phone_1 %}winner{% else %}loser{% endif %}" disabled>
+                                    {{ duel.phone_1 }}
+                                </button>
+
+                                <button class="button {% if duel.winner == duel.phone_2 %}winner{% else %}loser{% endif %}" disabled>
+                                    {{ duel.phone_2|default:"Waiting for opponent" }}
+                                </button>
+
+                            {% else %}
+                                <button type="submit" class="button" name="winner" value="{{ duel.phone_1 }}" required>
+                                <span>{{ duel.phone_1 }}</span>
+                
+                                <button type="submit" class="button" name="winner" value="{{ duel.phone_2 }}" required>
+                                <span>{{ duel.phone_2|default:"Waiting for opponent" }}</span>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            {% endfor %}
             </div>
         {% endfor %}
     </div>

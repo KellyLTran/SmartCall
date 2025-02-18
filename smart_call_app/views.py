@@ -4,7 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, TournamentForm
 from .models import Tournament, Duel
-from django.contrib import messages  
+from django.contrib import messages 
+from collections import defaultdict 
 
 
 # Render the landing page with the user authentication forms
@@ -90,6 +91,11 @@ def home_page(request):
 def tournament_page(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
     duels = Duel.objects.filter(tournament=tournament).order_by('round_number')
+    
+    # Assign duels to their specific round before a winner is chosen
+    rounds = defaultdict(list)
+    for duel in duels:
+        rounds[duel.round_number].append(duel)
 
     # When a choice is selected as a winner in the duel, save and advance the winner
     if request.method == "POST":
@@ -102,4 +108,4 @@ def tournament_page(request, tournament_id):
 
         return redirect('tournament', tournament_id=tournament.id)
 
-    return render(request, 'tournament.html', {'tournament': tournament, 'duels': duels})
+    return render(request, 'tournament.html', {'tournament': tournament, 'rounds': dict(rounds)})

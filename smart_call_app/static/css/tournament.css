@@ -8,9 +8,16 @@
 }
 
 .bracket-box {
+    display: flex;
     margin-right: 1400px;
     gap: 50px;
     padding: 20px;
+}
+
+.round-column {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
 }
 
 .duel {
@@ -51,7 +58,7 @@
 }
 
 
-/* Winner Button highlighted in blue */
+/* Winner Button highlighted */
 .winner {
     background-color: #7C68B5;
     color: white;
