@@ -11,6 +11,11 @@
 
     {% if tournament.winner %}
         <h2 class="tournament-name winner-choice"> Ultimate Winner: {{ tournament.winner }}</h2>
+    {% else %}
+        <p class="tournament-name winner-choice">
+            <strong> Left-click</strong> any choice to advance your preferred option. <br>
+            <strong> Right-click</strong> any choice for AI insights from Pab (Phone-A-Bot)!
+        </p>
     {% endif %}
 
     <div class="bracket-box">

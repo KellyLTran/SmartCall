@@ -169,11 +169,12 @@ body {
     max-width: 400px;
     position: relative;
     white-space: nowrap; /* Ensure input fields and add/remove buttons are in a row */
+    gap: 6px;
 }
 
 .choice-wrapper input {
     flex: 1;
-    padding: 12px;
+    padding: 13px;
     max-width: 350px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 8px;

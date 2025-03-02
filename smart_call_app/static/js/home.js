@@ -3,7 +3,7 @@
 let choiceCount = 2;
 
 function addChoice() {
-    if (choiceCount < 8) { 
+    if (choiceCount < 6) { 
         choiceCount++;
 
         // Get the choices and create a wrapper to apply styles to the input field and buttons
@@ -52,7 +52,7 @@ function updateAddButton() {
     const existingChoices = document.querySelectorAll(".choice-wrapper");
 
     // Remove the add button when the limit of 8 choices is reached
-    if (choiceCount === 8) {
+    if (choiceCount === 6) {
         document.querySelectorAll(".add-choice").forEach(btn => btn.remove());
         return; 
     }

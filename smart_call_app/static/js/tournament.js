@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     aiPopup.style.display = "none";
 
-    // Display the AI popup when a choice button is right-clicked 
+    // Display the AI pop-up when a choice button is right-clicked 
     document.addEventListener("contextmenu", function (event) {
         const choiceButton = event.target.closest(".choice-button");
         if (choiceButton && !choiceButton.disabled) {  
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
             aiPopup.style.display = "block"; 
         }
     });
-    
+
     closeAiBtn.addEventListener("click", function () {
         aiPopup.style.display = "none";
     });
