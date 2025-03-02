@@ -7,15 +7,7 @@
 </head>
 <body>
 
-    <!-- Logout Button -->
-    <div class="logout-box">
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="button">Logout</button>
-        </form>
-    </div>
-
-    <h1 class="tournament-name">{{ tournament.name }} Bracket</h1>
+    <h1 class="tournament-name">{{ tournament.name }} Tournament</h1>
 
     {% if tournament.winner %}
         <h2 class="tournament-name winner-choice"> Ultimate Winner: {{ tournament.winner }}</h2>
@@ -48,10 +40,10 @@
                                 </button>
 
                             {% else %}
-                                <button type="submit" class="button" name="winner" value="{{ duel.phone_1 }}" required>
+                                <button type="submit" class="button choice-button" name="winner" value="{{ duel.phone_1 }}" required>
                                 <span>{{ duel.phone_1 }}</span>
                 
-                                <button type="submit" class="button {% if not duel.phone_2 %}waiting{% endif %}" name="winner" value="{{ duel.phone_2 }}" 
+                                <button type="submit" class="button choice-button {% if not duel.phone_2 %}waiting{% endif %}" name="winner" value="{{ duel.phone_2 }}" 
                                     {% if not duel.phone_2 %}disabled{% endif %}>
                                     {{ duel.phone_2|default:"Waiting for opponent" }}
                             {% endif %}
@@ -63,8 +55,32 @@
         {% endfor %}
     </div>
 
+    <!-- AI Assistant Popup -->
+    <div id="ai-popup" class="popup">
+        <button id="close-ai" class="close-btn">✖</button>
+        <h2>AI Assistant</h2>
+        <input type="text" id="ai-input" placeholder="Ask me anything...">
+        <div class="prompt-icons">
+            <button class="prompt-btn">Provide Information</button>
+            <button class="prompt-btn">Ask Me Questions</button>
+            <button class="prompt-btn">Make Comparisons</button>
+        </div>
+        <button id="send-ai" class="send-btn">Send</button>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="logout-box">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="button">Logout</button>
+        </form>
+    </div>
+
+    <!-- Back to Home Button -->
     <div class="back-box">
         <a href="{% url 'home' %}" class="button">Back to Home</a>
+    </div>
 
 </body>
+<script src="{% static 'js/tournament.js' %}"></script>
 </html>

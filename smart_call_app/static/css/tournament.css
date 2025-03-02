@@ -81,6 +81,17 @@
     pointer-events: none;
 }
 
+.popup {
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: absolute; /* Prevent pop-up from shifting other elements */
+    right: 270px;
+    width: 500px;
+    height: 600px;
+    top: 210px;
+}
+
 .back-box {
     position: absolute;
     top: 20px;
