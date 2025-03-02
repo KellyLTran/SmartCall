@@ -105,7 +105,7 @@ def delete_tournament(request, tournament_id):
 def tournament_page(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
 
-    # Assign duels to their specific round
+    # Assign duels to their specific round using a dictionary
     duels = Duel.objects.filter(tournament=tournament).order_by('round_number')
     rounds = defaultdict(list)
     for duel in duels:
@@ -138,4 +138,28 @@ def tournament_page(request, tournament_id):
 
         return redirect('tournament', tournament_id=tournament.id)
 
-    return render(request, 'tournament.html', {'tournament': tournament, 'rounds': dict(rounds)})
+    # Filter and display only the last completed and current rounds
+    last_completed_round = None
+    current_round = None
+
+    if rounds: 
+        sorted_rounds = sorted(rounds.keys())
+
+        # Iterate through each round to get the most recently completed round
+        for round_num in sorted_rounds:
+            round_duels = rounds[round_num]
+
+            # If all duels in this round have a winner, it is completed 
+            if all(duel.winner for duel in round_duels):
+                last_completed_round = round_num
+            else: 
+                current_round = round_num
+                break
+        
+    filtered_rounds = {}
+    if last_completed_round:
+        filtered_rounds[last_completed_round] = rounds[last_completed_round]
+    if current_round:
+        filtered_rounds[current_round] = rounds[current_round]
+    
+    return render(request, 'tournament.html', {'tournament': tournament, 'rounds': filtered_rounds})
