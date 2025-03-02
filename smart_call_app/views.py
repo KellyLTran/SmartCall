@@ -140,7 +140,7 @@ def tournament_page(request, tournament_id):
 
     # Filter and display only the last completed and current rounds
     last_completed_round = None
-    current_round = None
+    incomplete_rounds = [] 
 
     if rounds: 
         sorted_rounds = sorted(rounds.keys())
@@ -153,13 +153,16 @@ def tournament_page(request, tournament_id):
             if all(duel.winner for duel in round_duels):
                 last_completed_round = round_num
             else: 
-                current_round = round_num
-                break
+                incomplete_rounds.append(round_num)
+                if len(incomplete_rounds) >= 2:
+                    break
         
     filtered_rounds = {}
     if last_completed_round:
         filtered_rounds[last_completed_round] = rounds[last_completed_round]
-    if current_round:
-        filtered_rounds[current_round] = rounds[current_round]
+    
+    # Display two incomplete rounds to show those waiting for an opponent
+    for round_num in incomplete_rounds:
+        filtered_rounds[round_num] = rounds[round_num]
     
     return render(request, 'tournament.html', {'tournament': tournament, 'rounds': filtered_rounds})
