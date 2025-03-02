@@ -138,7 +138,7 @@ def tournament_page(request, tournament_id):
 
         return redirect('tournament', tournament_id=tournament.id)
 
-    # Filter and display only the last completed and current rounds
+    # Functionality to filter and display only two rounds at a time
     last_completed_round = None
     incomplete_rounds = [] 
 
@@ -159,9 +159,16 @@ def tournament_page(request, tournament_id):
         
     filtered_rounds = {}
     if last_completed_round:
-        filtered_rounds[last_completed_round] = rounds[last_completed_round]
+
+        # Display the last completed round only if the user has not selected a winner in the new round yet
+        if incomplete_rounds and not any(duel.winner for duel in rounds[incomplete_rounds[0]]):
+            filtered_rounds[last_completed_round] = rounds[last_completed_round]
+
+        # If there are no more incomplete rounds (final winner chosen), still display the last completed round
+        elif not incomplete_rounds: 
+            filtered_rounds[last_completed_round] = rounds[last_completed_round]
     
-    # Display two incomplete rounds to show those waiting for an opponent
+    # Always display two incomplete rounds to account for advancing winners
     for round_num in incomplete_rounds:
         filtered_rounds[round_num] = rounds[round_num]
     
