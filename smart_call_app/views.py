@@ -3,9 +3,41 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, TournamentForm
-from .models import Tournament, Duel
+from .models import Tournament, Duel, AIChatbot
 from django.contrib import messages 
 from collections import defaultdict 
+
+import google.generativeai as genai
+from django.conf import settings
+
+
+# Configure the Gemini API
+genai.configure(api_key=settings.GOOGLE_GEMINI_API_KEY)
+
+# Get the response from Gemini AI
+def get_ai_response(user_input):
+    model = genai.GenerativeModel("gemini-pro")
+    chat = model.start_chat()
+    response = chat.send_message(user_input)
+    return response.text
+
+# Handle AI responses and save chat history 
+@login_required
+def ai_chat(request, tournament_id):
+    tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
+    user_query = request.POST.get("query", "")
+
+    if not user_query:
+        return HttpResponse(f"<strong>Pab:</strong> Please enter a question.")
+
+    ai_response = get_ai_response(user_query)
+
+    # Save chat history
+    chat_history = AIChatbot.objects.create(
+        user=request.user, tournament=tournament, query=user_query, response=ai_response
+    )
+
+    return HttpResponse(f"<strong>Pab:</strong> {ai_response}")
 
 
 # Render the landing page with the user authentication forms
