@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='landing'), name='logout'),
     path('tournament/<int:tournament_id>/', tournament_page, name='tournament'),
     path('delete_tournament/<int:tournament_id>/', delete_tournament, name='delete_tournament'),
+    path('tournament/<int:tournament_id>/chat/', ai_chat, name="ai_chat"),
 ]

@@ -63,12 +63,17 @@
     <!-- AI Assistant Popup -->
     <div id="ai-popup" class="popup">
         <button id="close-ai" class="close-btn">✖</button>
-        <h2>AI Assistant</h2>
+        <h2>AI Assistant Pab</h2>
+
+        <div id="ai-messages"></div>
+
         <input type="text" id="ai-input" placeholder="Ask me anything...">
+
+        <!-- Predefined Prompts -->
         <div class="prompt-icons">
-            <button class="prompt-btn">Provide Information</button>
-            <button class="prompt-btn">Ask Me Questions</button>
-            <button class="prompt-btn">Make Comparisons</button>
+            <button class="prompt-btn" onclick="sendPredefinedMessage('Summarize the key features of ${selectedChoice}, such as price range, performance, RAM, camera specs, battery life, and software experience.', selectedChoice)">Phone Overview</button>
+            <button class="prompt-btn" onclick="sendPredefinedMessage('Ask the user about their budget, main phone usage, such as for gaming, photography, or everyday use and what they prioritize most, such as battery, camera, speed, or price.', selectedChoice)">Help Me Choose</button>
+            <button class="prompt-btn" onclick="sendPredefinedMessage('Compare ${selectedChoice} with similar ones, focusing on performance, camera quality, battery life, and software experience.', selectedChoice)">Compare Phones</button>
         </div>
         <button id="send-ai" class="send-btn">Send</button>
     </div>

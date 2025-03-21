@@ -9,14 +9,14 @@ from collections import defaultdict
 
 import google.generativeai as genai
 from django.conf import settings
-
+from django.http import HttpResponse
 
 # Configure the Gemini API
 genai.configure(api_key=settings.GOOGLE_GEMINI_API_KEY)
 
 # Get the response from Gemini AI
 def get_ai_response(user_input):
-    model = genai.GenerativeModel("gemini-pro")
+    model = genai.GenerativeModel("gemini-1.5-pro-latest")
     chat = model.start_chat()
     response = chat.send_message(user_input)
     return response.text
