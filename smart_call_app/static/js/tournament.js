@@ -1,3 +1,5 @@
+let lastSelectedChoice = "this phone";
+let isPredefined = false;
 
 document.addEventListener("DOMContentLoaded", function () {
     const aiPopup = document.getElementById("ai-popup");
@@ -8,11 +10,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     aiPopup.style.display = "none";
 
+    // Send a predefined message to the AI based on user selection
+    function sendPredefinedMessage(promptTemplate) {
+        // Testing 
+        console.log("Predefined button clicked");
+        console.log("Current value of lastSelectedChoice:", lastSelectedChoice);
+
+        const predefinedPrompt = promptTemplate
+            .replace("selectedChoice_placeholder", lastSelectedChoice)
+            // .replace("opponent_placeholder", lastOpponentChoice); // TODO: Get the opposing phone in the duel to compare with 
+
+        isPredefined = true;
+        aiInput.value = predefinedPrompt
+        sendMessage();
+        aiInput.value = "";
+    }
+
     // Display the AI pop-up when a choice button is right-clicked 
     document.addEventListener("contextmenu", function (event) {
         const choiceButton = event.target.closest(".choice-button");
         if (choiceButton && !choiceButton.disabled) {  
             event.preventDefault();
+            lastSelectedChoice = choiceButton.innerText;
             aiPopup.style.display = "block"; 
         }
     });
@@ -27,8 +46,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const message = aiInput.value.trim();
         if (!message) return;
 
-        // Append user message
-        aiMessages.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+        // Append and display user message if it is not a predefined prompt
+        if (!isPredefined) {
+            aiMessages.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+        }
 
         // Send request to Django
         fetch(window.location.pathname + "chat/", {
@@ -52,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         aiInput.value = "";
     }
+    
 
     // Handle both click and Enter key events
     sendAiBtn.addEventListener("click", sendMessage);
@@ -63,5 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function getCSRFToken() {
         return document.querySelector("[name=csrfmiddlewaretoken]").value;
     }
+
+    window.sendPredefinedMessage = sendPredefinedMessage;
 
 });
