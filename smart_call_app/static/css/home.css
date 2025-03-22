@@ -1,31 +1,4 @@
-
-@font-face {
-    font-family: 'CustomFont';
-    src: url('/static/fonts/AtkinsonHyperlegibleNext.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-/* General button style */
-.button {
-    background-color: #7C68B5;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    display: block;
-    margin-top: 10px;
-}
-
-.button:hover {
-    background-color: #66539C;
-}
-
+@import url("landing.css");
 
 /* Logout Button */
 .logout-box {
@@ -38,19 +11,6 @@
     width: 100%;
 }
 
-/* General styling for the home page */
-body {
-    font-family: 'CustomFont', sans-serif;
-    display: flex;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(300deg, #7d9ac2, #9b86c9);
-}
 
 /* Home Dashboard */ 
 .home-container {
@@ -60,6 +20,7 @@ body {
     gap: 20px;
     font-size: 20px;
 }
+
 
 /* Tournament History Section */ 
 .tournament-history {
@@ -123,6 +84,7 @@ body {
     background-color: darkred;
 }
 
+
 /* Tournament Creation Section */ 
 .tournament-box {
     flex: 2;
@@ -151,9 +113,14 @@ body {
     font-size: 18px;
 }
 
+.tournament-box input:focus {
+    outline: 1px solid white;
+}
+
 .tournament-box button {
     width: auto;
 }
+
 
 /* Input Fields for Choices */
 #choicesContainer {

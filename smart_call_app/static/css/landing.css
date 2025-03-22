@@ -1,4 +1,3 @@
-
 @font-face {
     font-family: 'CustomFont';
     src: url('/static/fonts/AtkinsonHyperlegibleNext.ttf') format('truetype');
@@ -6,19 +5,40 @@
     font-style: normal;
 }
 
-/* General styling for the landing page */
+/* General styling for the whole page */
 body {
     font-family: 'CustomFont', sans-serif;
+    display: flex;
     margin: 0;
     padding: 0;
     height: 100vh;
-    display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     background: linear-gradient(300deg, #7d9ac2, #9b86c9);
 }
+
+/* General button style */
+.button {
+    background-color: #7C68B5;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+}
+
+.button:hover {
+    background-color: #66539C;
+}
+
 
 /* Left section styling for landing page info */
 .left-content {
@@ -55,18 +75,19 @@ body {
     max-width: 600px; 
 }
 
+
 /* Authentication box for user login/registration */
 .auth-box {
     width: 480px;
     max-width: 90%;
     padding: 60px;
-    background: #9b86c9;
+    background: #8e79ba;
     border-radius: 12px; 
     box-shadow: 0 10px 20px rgba(120, 160, 255, 0.3);
     text-align: center;
 
     /* Outline for the box to create contrast */
-    outline: 4px solid rgba(100, 130, 180, 0.4);
+    /*outline: 4px solid rgba(100, 130, 180, 0.4); */
    
     /* Center the box in the right section of the page */
     position: absolute;
@@ -78,6 +99,7 @@ body {
     flex-direction: column;
     justify-content: center;
 }
+
 
 /* Authentication box text styling */ 
 .auth-box h2 {
@@ -113,10 +135,20 @@ body {
 .auth-box form input::placeholder {
     color: rgba(255, 255, 255, 0.6);
 }
+
+.auth-box form input:focus {
+    outline: 1px solid white;
+}
+
+.auth-box a {
+    color: #dee7fb;
+    text-decoration: underline;
+}
+
     
 /* Button styling */
 .auth-box button {
-    background-color: #7C68B5; 
+    background-color: #705aa5;
     color: white;
     padding: 18px; 
     border: none;
@@ -129,11 +161,11 @@ body {
 }
 
 .auth-box button:hover {
-    background-color: #66539C; 
+    background-color: #644d94;
 }
+
 
 /* Hide the register form by default */
 .hidden {
     display: none;
 }
-
