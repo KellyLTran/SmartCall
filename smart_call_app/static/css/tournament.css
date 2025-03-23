@@ -117,10 +117,11 @@
     font-size: 16px;
     width: 483px;
     margin-top: 3px;
-    margin-bottom: 0px;
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
+    position: absolute;
+    bottom: 15px;
 }
 
 #ai-input::placeholder {
@@ -137,16 +138,22 @@
     margin-bottom: 10px;
     width: auto;           
     white-space: nowrap;
+    position: absolute;
+    bottom: 60px;
 }
 
 .prompt-btn {
-    display: inline;
-    margin-top: 430px;
+    display: inline-block;
+    top: 50px;
+    position: static;
 }
 
 .send-btn {
-    left: 10px;
-    margin-top: 30px;
+    position: absolute;
+    bottom: 19px;
+    right: 15px;
+    padding: 10px;
+    font-size: 15px;
 }
 
 .close-btn {
