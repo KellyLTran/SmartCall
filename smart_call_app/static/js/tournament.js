@@ -7,15 +7,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const aiInput = document.getElementById("ai-input");
     const sendAiBtn = document.getElementById("send-ai"); 
     const aiMessages = document.getElementById("ai-messages"); 
+    const clearChatBtn = document.getElementById("clear-chat");
 
     aiPopup.style.display = "none";
 
+    // Display saved chat history
+    const savedMessages = localStorage.getItem("aiChatHistory");
+    if (savedMessages) {
+        aiMessages.innerHTML = savedMessages;
+    }
+
     // Send a predefined message to the AI based on user selection
     function sendPredefinedMessage(promptTemplate) {
-        // Testing 
-        console.log("Predefined button clicked");
-        console.log("Current value of lastSelectedChoice:", lastSelectedChoice);
-
         const predefinedPrompt = promptTemplate
             .replace("selectedChoice_placeholder", lastSelectedChoice)
             // .replace("opponent_placeholder", lastOpponentChoice); // TODO: Get the opposing phone in the duel to compare with 
@@ -48,9 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Append and display user message if it is not a predefined prompt
         if (!isPredefined) {
-            aiMessages.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+            aiMessages.innerHTML += `<p><strong>You:</strong> ${message}</p>`;  
+            localStorage.setItem("aiChatHistory", aiMessages.innerHTML);  
         }
-
+      
         // Send request to Django
         fetch(window.location.pathname + "chat/", {
             method: "POST",
@@ -62,23 +66,30 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => response.text())
 
-        // Append the AI response
+        // Append the AI response and save the chat history
         .then(data => {
             aiMessages.innerHTML += `<p><strong>Pab:</strong> ${data}</p>`; 
             aiMessages.scrollTop = aiMessages.scrollHeight; 
+            localStorage.setItem("aiChatHistory", aiMessages.innerHTML); 
         })
         .catch(() => {
             aiMessages.innerHTML += `<p><strong>Error:</strong> AI is unavailable.</p>`;
+            localStorage.setItem("aiChatHistory", aiMessages.innerHTML);
         });
 
         aiInput.value = "";
     }
     
-
     // Handle both click and Enter key events
     sendAiBtn.addEventListener("click", sendMessage);
     aiInput.addEventListener("keypress", event => {
         if (event.key === "Enter") sendMessage();
+    });
+
+    // Clear messages from UI and localStorage 
+    clearChatBtn.addEventListener("click", function () {
+        aiMessages.innerHTML = "";
+        localStorage.removeItem("aiChatHistory");
     });
 
     // Get CSRF token

@@ -174,21 +174,21 @@
     font-size: 15px;
 }
 
-.close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
+.clear-btn {
+    background: rgba(255, 255, 255, 0.15);
     position: absolute;
     top: 10px;
-    right: 10px;
     cursor: pointer;
 }
 
-.close-btn:hover {
-    color: #ccc;
+.clear-btn:hover {
+    background-color: darkred;
 }
 
+.close-btn {
+    right: 10px;
+    top: 6px;
+}
 
 .back-box {
     position: absolute;
