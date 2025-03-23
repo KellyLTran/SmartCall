@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Append the AI response
         .then(data => {
-            aiMessages.innerHTML += `<p>${data}</p>`; 
+            aiMessages.innerHTML += `<p><strong>Pab:</strong> ${data}</p>`; 
             aiMessages.scrollTop = aiMessages.scrollHeight; 
         })
         .catch(() => {

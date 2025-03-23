@@ -110,27 +110,45 @@
     text-align: center;
 }
 
-#ai-input {
+.ai-input {
     padding: 12px;
     border-radius: 8px;
     border: none;
-    font-size: 16px;
+    font-size: 18px;
     width: 483px;
     margin-top: 3px;
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    color: #66539C;
     position: absolute;
     bottom: 15px;
 }
 
-#ai-input::placeholder {
+.ai-input::placeholder {
     color: #66539C;
 }
 
-#ai-input:focus {
+.ai-input:focus {
     outline: 1px solid white;
 }
+
+/* Scrollable chat area without overlapping prompt buttons and input fields */
+.ai-chat  {
+    font-size: 18px;
+    height: 423px;
+    overflow-y: auto;
+}
+
+.ai-chat p {
+    padding: 0 0 15px 0;
+    margin: 0;
+}
+
+.ai-chat::-webkit-scrollbar {
+    width: 6px;
+    display: none;
+}
+
 
 .prompt-icons {
     gap: 10px;

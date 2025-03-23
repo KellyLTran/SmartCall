@@ -16,7 +16,7 @@ genai.configure(api_key=settings.GOOGLE_GEMINI_API_KEY)
 
 # Get the response from Gemini AI
 def get_ai_response(user_input):
-    model = genai.GenerativeModel("gemini-1.5-pro-latest")
+    model = genai.GenerativeModel("gemini-1.5-pro")
     chat = model.start_chat()
     response = chat.send_message(user_input)
     return response.text
@@ -27,9 +27,6 @@ def ai_chat(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
     user_query = request.POST.get("query", "")
 
-    if not user_query:
-        return HttpResponse(f"<strong>Pab:</strong> Please enter a question.")
-
     ai_response = get_ai_response(user_query)
 
     # Save chat history
@@ -37,7 +34,7 @@ def ai_chat(request, tournament_id):
         user=request.user, tournament=tournament, query=user_query, response=ai_response
     )
 
-    return HttpResponse(f"<strong>Pab:</strong> {ai_response}")
+    return HttpResponse(ai_response)
 
 
 # Render the landing page with the user authentication forms
