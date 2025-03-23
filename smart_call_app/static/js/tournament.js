@@ -68,7 +68,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Append the AI response and save the chat history
         .then(data => {
-            aiMessages.innerHTML += `<p><strong>Pab:</strong> ${data}</p>`; 
+
+            // Render markdown language properly
+            const formattedData = marked.parse(data);
+            aiMessages.innerHTML += `<p><strong>Pab:</strong> </p>` + formattedData; 
             aiMessages.scrollTop = aiMessages.scrollHeight; 
             localStorage.setItem("aiChatHistory", aiMessages.innerHTML); 
         })
