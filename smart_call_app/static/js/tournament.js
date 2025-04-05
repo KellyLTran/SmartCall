@@ -21,12 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function sendPredefinedMessage(promptTemplate) {
         const predefinedPrompt = promptTemplate
             .replace("selectedChoice_placeholder", lastSelectedChoice)
-            // .replace("opponent_placeholder", lastOpponentChoice); // TODO: Get the opposing phone in the duel to compare with 
+            .replace("opponent_placeholder", lastOpponentChoice); 
 
         isPredefined = true;
         aiInput.value = predefinedPrompt
         sendMessage();
         aiInput.value = "";
+        isPredefined = false;
     }
 
     // Display the AI pop-up when a choice button is right-clicked 
@@ -35,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (choiceButton && !choiceButton.disabled) {  
             event.preventDefault();
             lastSelectedChoice = choiceButton.innerText;
+            lastOpponentChoice = choiceButton.dataset.opponent; // Get the opposing phone in the duel to compare with 
             aiPopup.style.display = "block"; 
         }
     });
@@ -69,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Append the AI response and save the chat history
         .then(data => {
 
-            // Render markdown language properly
+            // Render AI Markdown properly
             const formattedData = marked.parse(data);
             aiMessages.innerHTML += `<p><strong>Pab:</strong> </p>` + formattedData; 
             aiMessages.scrollTop = aiMessages.scrollHeight; 

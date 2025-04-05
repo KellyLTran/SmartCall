@@ -45,12 +45,23 @@
                                 </button>
 
                             {% else %}
-                                <button type="submit" class="button choice-button" name="winner" value="{{ duel.phone_1 }}" required>
-                                <span>{{ duel.phone_1 }}</span>
+                                <button type="submit" 
+                                    class="button choice-button" 
+                                    name="winner" 
+                                    value="{{ duel.phone_1 }}" 
+                                    data-opponent="{{ duel.phone_2|default_if_none:'' }}"
+                                    required>
+                                    <span>{{ duel.phone_1 }}</span>
+                                </button>
                 
-                                <button type="submit" class="button choice-button {% if not duel.phone_2 %}waiting{% endif %}" name="winner" value="{{ duel.phone_2 }}" 
+                                <button type="submit" 
+                                    class="button choice-button {% if not duel.phone_2 %}waiting{% endif %}" 
+                                    name="winner" 
+                                    value="{{ duel.phone_2 }}" 
+                                    data-opponent="{{ duel.phone_1|default_if_none:'' }}"
                                     {% if not duel.phone_2 %}disabled{% endif %}>
                                     {{ duel.phone_2|default:"Waiting for opponent" }}
+                                </button>
                             {% endif %}
                         </div>
                     </form>
