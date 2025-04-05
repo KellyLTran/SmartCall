@@ -3,9 +3,38 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, TournamentForm
-from .models import Tournament, Duel
+from .models import Tournament, Duel, AIChatbot
 from django.contrib import messages 
 from collections import defaultdict 
+
+import google.generativeai as genai
+from django.conf import settings
+from django.http import HttpResponse
+
+# Configure the Gemini API
+genai.configure(api_key=settings.GOOGLE_GEMINI_API_KEY)
+
+# Get the response from Gemini AI
+def get_ai_response(user_input):
+    model = genai.GenerativeModel("gemini-1.5-pro")
+    chat = model.start_chat()
+    response = chat.send_message(user_input)
+    return response.text
+
+# Handle AI responses and save chat history 
+@login_required
+def ai_chat(request, tournament_id):
+    tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
+    user_query = request.POST.get("query", "")
+
+    ai_response = get_ai_response(user_query)
+
+    # Save chat history
+    chat_history = AIChatbot.objects.create(
+        user=request.user, tournament=tournament, query=user_query, response=ai_response
+    )
+
+    return HttpResponse(ai_response)
 
 
 # Render the landing page with the user authentication forms
@@ -105,7 +134,7 @@ def delete_tournament(request, tournament_id):
 def tournament_page(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
 
-    # Assign duels to their specific round
+    # Assign duels to their specific round using a dictionary
     duels = Duel.objects.filter(tournament=tournament).order_by('round_number')
     rounds = defaultdict(list)
     for duel in duels:
@@ -138,4 +167,38 @@ def tournament_page(request, tournament_id):
 
         return redirect('tournament', tournament_id=tournament.id)
 
-    return render(request, 'tournament.html', {'tournament': tournament, 'rounds': dict(rounds)})
+    # Functionality to filter and display only two rounds at a time
+    last_completed_round = None
+    incomplete_rounds = [] 
+
+    if rounds: 
+        sorted_rounds = sorted(rounds.keys())
+
+        # Iterate through each round to get the most recently completed round
+        for round_num in sorted_rounds:
+            round_duels = rounds[round_num]
+
+            # If all duels in this round have a winner, it is completed 
+            if all(duel.winner for duel in round_duels):
+                last_completed_round = round_num
+            else: 
+                incomplete_rounds.append(round_num)
+                if len(incomplete_rounds) >= 2:
+                    break
+        
+    filtered_rounds = {}
+    if last_completed_round:
+
+        # Display the last completed round only if the user has not selected a winner in the new round yet
+        if incomplete_rounds and not any(duel.winner for duel in rounds[incomplete_rounds[0]]):
+            filtered_rounds[last_completed_round] = rounds[last_completed_round]
+
+        # If there are no more incomplete rounds (final winner chosen), still display the last completed round
+        elif not incomplete_rounds: 
+            filtered_rounds[last_completed_round] = rounds[last_completed_round]
+    
+    # Always display two incomplete rounds to account for advancing winners
+    for round_num in incomplete_rounds:
+        filtered_rounds[round_num] = rounds[round_num]
+    
+    return render(request, 'tournament.html', {'tournament': tournament, 'rounds': filtered_rounds})

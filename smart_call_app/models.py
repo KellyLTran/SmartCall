@@ -47,3 +47,14 @@ class Duel(models.Model):
                     round_number=next_round,
                     phone_1=self.winner
                 )
+
+# Model for the AI Chatbot
+class AIChatbot(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    query = models.TextField()
+    response = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.query[:30]}"

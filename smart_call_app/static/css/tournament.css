@@ -1,3 +1,4 @@
+@import url("landing.css");
 @import url("home.css");
 
 .tournament-name {
@@ -5,11 +6,12 @@
     bottom: 80%;
     transform: translateY(-50%); 
     text-align: center;
-    top: 110px;
+    top: 100px;
 }
 
 .winner-choice {
-    top: 150px;
+    top: 135px;
+    font-size: 18px;
 }
 
 .bracket-box {
@@ -24,6 +26,11 @@
     gap: 50px;
     width: 280px;
     text-align: center;
+    margin-top: 130px;
+}
+
+.round-column h2 {
+    margin: 10px;
 }
 
 .duel {
@@ -79,6 +86,108 @@
 
 .waiting {
     pointer-events: none;
+}
+
+.popup {
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: absolute; /* Prevent pop-up from shifting other elements */
+    right: 270px;
+    width: 500px;
+    height: 600px;
+    top: 210px;
+    /* background-color: #7C68B5;*/
+    background: linear-gradient(180deg, #7C68B5, rgba(255, 255, 255, 0.15));
+    
+    /* Ensure text does not overflow outside popup */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.popup h2 {
+    text-align: center;
+}
+
+.ai-input {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 18px;
+    width: 483px;
+    margin-top: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #66539C;
+    position: absolute;
+    bottom: 15px;
+}
+
+.ai-input::placeholder {
+    color: #66539C;
+}
+
+.ai-input:focus {
+    outline: 1px solid white;
+}
+
+/* Scrollable chat area without overlapping prompt buttons and input fields */
+.ai-chat  {
+    font-size: 18px;
+    height: 423px;
+    overflow-y: auto;
+}
+
+.ai-chat p {
+    padding: 0 0 15px 0;
+    margin: 0;
+}
+
+.ai-chat::-webkit-scrollbar {
+    width: 6px;
+    display: none;
+}
+
+
+.prompt-icons {
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+    width: auto;           
+    white-space: nowrap;
+    position: absolute;
+    bottom: 60px;
+}
+
+.prompt-btn {
+    display: inline-block;
+    top: 50px;
+    position: static;
+}
+
+.send-btn {
+    position: absolute;
+    bottom: 19px;
+    right: 15px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.clear-btn {
+    background: rgba(255, 255, 255, 0.15);
+    position: absolute;
+    top: 10px;
+    cursor: pointer;
+}
+
+.clear-btn:hover {
+    background-color: darkred;
+}
+
+.close-btn {
+    right: 10px;
+    top: 6px;
 }
 
 .back-box {

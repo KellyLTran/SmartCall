@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Tournament Bracket</title>
+    <title>{{ tournament.name }} Tournament</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/tournament.css' %}">
 </head>
 <body>
 
-    <!-- Logout Button -->
-    <div class="logout-box">
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="button">Logout</button>
-        </form>
-    </div>
-
-    <h1 class="tournament-name">{{ tournament.name }} Bracket</h1>
+    <h1 class="tournament-name">{{ tournament.name }} Tournament</h1>
 
     {% if tournament.winner %}
         <h2 class="tournament-name winner-choice"> Ultimate Winner: {{ tournament.winner }}</h2>
+    {% else %}
+        <p class="tournament-name winner-choice">
+            <strong> Left-click</strong> any choice to advance your preferred option. <br>
+            <strong> Right-click</strong> any choice for AI insights from Pab (Phone-A-Bot)!
+        </p>
     {% endif %}
 
     <div class="bracket-box">
@@ -48,10 +45,10 @@
                                 </button>
 
                             {% else %}
-                                <button type="submit" class="button" name="winner" value="{{ duel.phone_1 }}" required>
+                                <button type="submit" class="button choice-button" name="winner" value="{{ duel.phone_1 }}" required>
                                 <span>{{ duel.phone_1 }}</span>
                 
-                                <button type="submit" class="button {% if not duel.phone_2 %}waiting{% endif %}" name="winner" value="{{ duel.phone_2 }}" 
+                                <button type="submit" class="button choice-button {% if not duel.phone_2 %}waiting{% endif %}" name="winner" value="{{ duel.phone_2 }}" 
                                     {% if not duel.phone_2 %}disabled{% endif %}>
                                     {{ duel.phone_2|default:"Waiting for opponent" }}
                             {% endif %}
@@ -63,8 +60,52 @@
         {% endfor %}
     </div>
 
+    <!-- AI Assistant Popup -->
+    <div id="ai-popup" class="popup">
+        <button id="clear-chat" class="button clear-btn">Clear Chat</button>
+
+        <button id="close-ai" class="button clear-btn close-btn">X</button>
+
+        <h2>AI Assistant Pab</h2>
+
+        <!-- Messages between AI bot and user are appended here -->
+        <div id="ai-messages" class="ai-chat">
+        </div>
+
+        <!-- Predefined Prompts -->
+        <div class="prompt-icons">
+            <button class="button prompt-btn" 
+                onclick="sendPredefinedMessage('Summarize the key features of selectedChoice_placeholder, such as price range, performance, RAM, camera specs, battery life, and software experience. Please keep it concise and straightforward.')">
+                Phone Overview</button>
+            <button class="button prompt-btn" 
+                onclick="sendPredefinedMessage('Ask the user about their budget, main phone usage, such as for gaming, photography, or everyday use and what they prioritize most, such as battery, camera, speed, or price for selectedChoice_placeholder. Please keep it concise and straightforward.')">
+                Help Me Choose</button>
+            <button class="button prompt-btn" 
+                onclick="sendPredefinedMessage('Compare selectedChoice_placeholder with opponent_placeholder in terms of performance, camera, battery, and software experience. Please keep it concise and straightforward.')">
+                Compare Phones</button>
+        </div>
+
+        <input type="text" id="ai-input" class="ai-input" placeholder="Ask me anything...">
+        <button id="send-ai" class="button send-btn">Send</button>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="logout-box">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="button">Logout</button>
+        </form>
+    </div>
+
+    <!-- Back to Home Button -->
     <div class="back-box">
         <a href="{% url 'home' %}" class="button">Back to Home</a>
+    </div>
 
 </body>
+
+<!-- Import library to convert and render markdown language properly -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script src="{% static 'js/tournament.js' %}"></script>
 </html>
