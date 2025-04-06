@@ -22,7 +22,7 @@
 
         <!-- Group duels in their associated round -->
         {% for round, round_duels in rounds.items %}
-        <div class="round-column"> 
+        <div class="round-column {% if round in rounds_to_fade %}fade-out{% endif %}"> 
             <h2>Round {{ round }}</h2>
 
             <!-- Get and display each duel in the tournament -->
@@ -46,7 +46,7 @@
 
                             {% else %}
                                 <button type="submit" 
-                                    class="button choice-button" 
+                                    class="button choice-button {% if not duel.phone_2 %}waiting{% endif %}"
                                     name="winner" 
                                     value="{{ duel.phone_1 }}" 
                                     data-opponent="{{ duel.phone_2|default_if_none:'' }}"

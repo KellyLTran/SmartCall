@@ -21,12 +21,23 @@
     padding: 20px;
 }
 
+
 .round-column {
     flex-direction: column;
     gap: 50px;
     width: 280px;
     text-align: center;
     margin-top: 130px;
+
+    /* Make round-columns transition smoothly */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Fade the column smoothly when it is removed */
+.round-column.fade-out {
+    opacity: 0;
+    transform: translateX(-50px);
+    pointer-events: none;
 }
 
 .round-column h2 {

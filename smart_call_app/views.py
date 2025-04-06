@@ -186,6 +186,8 @@ def tournament_page(request, tournament_id):
                 if len(incomplete_rounds) >= 2:
                     break
         
+    # Only fade last completed round if it's no longer needed
+    rounds_to_fade = []
     filtered_rounds = {}
     if last_completed_round:
 
@@ -193,12 +195,20 @@ def tournament_page(request, tournament_id):
         if incomplete_rounds and not any(duel.winner for duel in rounds[incomplete_rounds[0]]):
             filtered_rounds[last_completed_round] = rounds[last_completed_round]
 
+            # If a new round has started due to the user clicking the winner of previous round, mark it for fading out
+            rounds_to_fade.append(last_completed_round)
+
         # If there are no more incomplete rounds (final winner chosen), still display the last completed round
         elif not incomplete_rounds: 
             filtered_rounds[last_completed_round] = rounds[last_completed_round]
+            rounds_to_fade.append(last_completed_round)
     
     # Always display two incomplete rounds to account for advancing winners
     for round_num in incomplete_rounds:
         filtered_rounds[round_num] = rounds[round_num]
     
-    return render(request, 'tournament.html', {'tournament': tournament, 'rounds': filtered_rounds})
+    return render(request, 'tournament.html', {
+        'tournament': tournament, 
+        'rounds': filtered_rounds,
+        'rounds_to_fade': rounds_to_fade,
+    })
