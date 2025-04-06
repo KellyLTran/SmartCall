@@ -100,7 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener('click', event => {
 
             // Find the form and the round this button belongs to
-            const currentRoundColumn = button.closest('form').closest('.round-column');
+            const form = button.closest('form');
+            const currentRoundColumn = form.closest('.round-column');
 
             const visibleRounds = roundColumns.filter(round => round.offsetParent !== null);
 
@@ -129,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         // Delay the page load to show the fading animation
                         setTimeout(() => {
-                            const form = button.closest('form'); 
                             form.submit(); 
                         }, 500);
                         return;
