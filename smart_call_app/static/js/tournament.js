@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const sendAiBtn = document.getElementById("send-ai"); 
     const aiMessages = document.getElementById("ai-messages"); 
     const clearChatBtn = document.getElementById("clear-chat");
+    const roundColumns = Array.from(document.querySelectorAll('.round-column'));
 
     aiPopup.style.display = "none";
 
@@ -91,6 +92,48 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.key === "Enter") sendMessage();
     });
 
+
+    // Apply the removal animation based on the first choice that the user clicks in a new round
+    document.querySelectorAll('form.duel-form button[type="submit"]').forEach(button => {
+        
+        // For each button, add a click event listener
+        button.addEventListener('click', event => {
+
+            // Find the form and the round this button belongs to
+            const currentRoundColumn = button.closest('form').closest('.round-column');
+
+            const visibleRounds = roundColumns.filter(round => round.offsetParent !== null);
+
+            // Make sure at least 2 visible rounds displat at a time (completed and new active round)
+            if (visibleRounds.length >= 2) {
+
+                const firstVisibleRound = visibleRounds[0]; 
+                const secondVisibleRound = visibleRounds[1];
+
+                // If a choice was selected in the second visible round, fade the completed round by applying the fade out class
+                if (currentRoundColumn === secondVisibleRound) {
+
+                    const alreadySelected = secondVisibleRound.querySelector('button.winner, button.loser');
+                    if (!alreadySelected) {
+
+                        // Prevent the form from submitting immediately on this click
+                        event.preventDefault();
+                        firstVisibleRound.classList.add('fade-out');
+
+                        // Delay the page load to show the fading animation
+                        setTimeout(() => {
+                            const form = button.closest('form');
+                            console.log('Form:', form); // TODO: Animation shows, but form is not submitted properly.
+                            form.submit(); 
+                        }, 500);
+                        return; 
+                    }
+                }
+            }
+        });
+    });
+
+    
     // Clear messages from UI and localStorage 
     clearChatBtn.addEventListener("click", function () {
         aiMessages.innerHTML = "";

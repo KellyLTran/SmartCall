@@ -10,7 +10,7 @@
     <h1 class="tournament-name">{{ tournament.name }} Tournament</h1>
 
     {% if tournament.winner %}
-        <h2 class="tournament-name winner-choice"> Ultimate Winner: {{ tournament.winner }}</h2>
+        <h2 class="tournament-name winner-choice"> Final Winner: {{ tournament.winner }}</h2>
     {% else %}
         <p class="tournament-name winner-choice">
             <strong> Left-click</strong> any choice to advance your preferred option. <br>
@@ -22,13 +22,13 @@
 
         <!-- Group duels in their associated round -->
         {% for round, round_duels in rounds.items %}
-        <div class="round-column {% if round in rounds_to_fade %}fade-out{% endif %}"> 
+        <div class="round-column"> 
             <h2>Round {{ round }}</h2>
 
             <!-- Get and display each duel in the tournament -->
             {% for duel in round_duels %} 
                 <div class="duel">
-                    <form method="post">
+                    <form method="post" class="duel-form" data-round="{{ round }}">
                         {% csrf_token %}
                         <input type="hidden" name="duel_id" value="{{ duel.id }}">
 
@@ -46,7 +46,7 @@
 
                             {% else %}
                                 <button type="submit" 
-                                    class="button choice-button {% if not duel.phone_2 %}waiting{% endif %}"
+                                    class="button choice-button {% if not duel.phone_1 %}waiting{% endif %}"
                                     name="winner" 
                                     value="{{ duel.phone_1 }}" 
                                     data-opponent="{{ duel.phone_2|default_if_none:'' }}"
@@ -113,10 +113,10 @@
         <a href="{% url 'home' %}" class="button">Back to Home</a>
     </div>
 
+    <!-- Import library to convert and render markdown language properly -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script src="{% static 'js/tournament.js' %}"></script>
 </body>
 
-<!-- Import library to convert and render markdown language properly -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<script src="{% static 'js/tournament.js' %}"></script>
 </html>
