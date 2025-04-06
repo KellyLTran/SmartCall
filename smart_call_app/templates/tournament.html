@@ -31,6 +31,7 @@
                     <form method="post" class="duel-form" data-round="{{ round }}">
                         {% csrf_token %}
                         <input type="hidden" name="duel_id" value="{{ duel.id }}">
+                        <input type="hidden" name="winner" value="">
 
                         <div class="competitor-box">
                             <!-- If a duel has a winner, disable the buttons and highlight the winner -->

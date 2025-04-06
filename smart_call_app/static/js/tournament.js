@@ -116,17 +116,23 @@ document.addEventListener("DOMContentLoaded", function () {
                     const alreadySelected = secondVisibleRound.querySelector('button.winner, button.loser');
                     if (!alreadySelected) {
 
-                        // Prevent the form from submitting immediately on this click
+                        // Prevent the form from submitting immediately on this click, but this removes the clicked button’s data from the POST request form
                         event.preventDefault();
+
+                        // So, manually set the hidden winner field before submitting to ensure all necessary data is sent to the backend 
+                        const winnerInput = form.querySelector('input[name="winner"]');
+                        if (winnerInput) {
+                            winnerInput.value = button.value;
+                        }
+
                         firstVisibleRound.classList.add('fade-out');
 
                         // Delay the page load to show the fading animation
                         setTimeout(() => {
-                            const form = button.closest('form');
-                            console.log('Form:', form); // TODO: Animation shows, but form is not submitted properly.
+                            const form = button.closest('form'); 
                             form.submit(); 
                         }, 500);
-                        return; 
+                        return;
                     }
                 }
             }
