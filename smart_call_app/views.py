@@ -79,15 +79,24 @@ def home_page(request):
     if request.method == 'POST':
         form = TournamentForm(request.POST)
         if form.is_valid():
-            tournament = form.save(commit=False)
-            tournament.user = request.user
-            tournament.save()
-            
+    
             # Get choices from the form
             choices = []
             for key, value in request.POST.items():
                 if key.startswith("choice"):
                     choices.append(value)
+
+            # Check for duplicates by converting all to lowercase and putting them in a set
+            lowercased_choices = [choice.lower() for choice in choices]
+
+            # If the set length is different from the original length of choices, then there were duplicates removed
+            if len(lowercased_choices) != len(set(lowercased_choices)):
+                messages.error(request, "Duplicate choices are not allowed. Please enter unique phone names.")
+                return redirect('home')
+
+            tournament = form.save(commit=False)
+            tournament.user = request.user
+            tournament.save()
 
             # Create duels from the choices for the first round
             if len(choices) >= 2:
@@ -123,7 +132,6 @@ def delete_tournament(request, tournament_id):
 
     if request.method == "POST":
         tournament.delete()
-        messages.success(request, "Tournament deleted successfully.")
         return redirect('home') 
 
     return redirect('home')

@@ -44,13 +44,18 @@
 
         <!-- Tournament Creation Form -->
          <div class="tournament-box">
-            <h2>Create A New Tournament</h2>
+            <h2 class="{% if messages %}has-error{% endif %}">Create A New Tournament</h2>
+
+            {% for message in messages %}
+                <div class="{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+
             <form method="post">
                 {% csrf_token %}
                 <div class="choice-wrapper" id="choicesContainer">
-                    <input type="text" name="name" placeholder="Tournament Name" required>
-                    <input type="text" name="choice1" placeholder="Smartphone Choice 1" required>
-                    <input type="text" name="choice2" placeholder="Smartphone Choice 2" required>
+                    <input type="text" name="name" placeholder="Tournament Name" value="{{ request.POST.name }}" required>
+                    <input type="text" name="choice1" placeholder="Smartphone Choice 1" value="{{ request.POST.choice1 }}" required>
+                    <input type="text" name="choice2" placeholder="Smartphone Choice 2" value="{{ request.POST.choice2 }}" required>
                 </div>
 
                 <div class="choice-wrapper">
