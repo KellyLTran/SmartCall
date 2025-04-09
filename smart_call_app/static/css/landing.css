@@ -5,18 +5,24 @@
     font-style: normal;
 }
 
+
 /* General styling for the whole page */
 body {
     font-family: 'CustomFont', sans-serif;
     display: flex;
     margin: 0;
     padding: 0;
-    height: 100vh;
+    /* height: 100vh;  */
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     background: linear-gradient(300deg, #7d9ac2, #9b86c9);
+
+    /* Responsive adjustments */
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden; /* Allow horizontal scroll */
 }
 
 /* General button style */
@@ -38,7 +44,6 @@ body {
 .button:hover {
     background-color: #66539C;
 }
-
 
 /* Left section styling for landing page info */
 .left-content {
@@ -164,8 +169,14 @@ body {
     background-color: #644d94;
 }
 
-
 /* Hide the register form by default */
 .hidden {
     display: none;
+}
+
+/* Responsive design for changing window sizes or zooming in and out */
+.page-container {
+    max-width: 1200px;  
+    margin: 0 auto;    
+    padding: 0 20px;  
 }

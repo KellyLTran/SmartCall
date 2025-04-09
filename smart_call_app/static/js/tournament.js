@@ -12,8 +12,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     aiPopup.style.display = "none";
 
-    // Display saved chat history
-    const savedMessages = localStorage.getItem("aiChatHistory");
+    // Display saved chat history, unique to each tournament
+    const tournamentId = document.body.dataset.tournamentId;
+    const storageTournamentKey = `aiChatHistory-${tournamentId}`;
+    const savedMessages = localStorage.getItem(storageTournamentKey);
     if (savedMessages) {
         aiMessages.innerHTML = savedMessages;
     }
@@ -55,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Append and display user message if it is not a predefined prompt
         if (!isPredefined) {
             aiMessages.innerHTML += `<p><strong>You:</strong> ${message}</p>`;  
-            localStorage.setItem("aiChatHistory", aiMessages.innerHTML);  
+            localStorage.setItem(storageTournamentKey, aiMessages.innerHTML);  
         }
       
         // Send request to Django
@@ -74,13 +76,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Render AI Markdown properly
             const formattedData = marked.parse(data);
-            aiMessages.innerHTML += `<p><strong>Pab:</strong> </p>` + formattedData; 
+            aiMessages.innerHTML += `<div><strong>Pab:</strong> ${formattedData}<div>`;
             aiMessages.scrollTop = aiMessages.scrollHeight; 
-            localStorage.setItem("aiChatHistory", aiMessages.innerHTML); 
+            localStorage.setItem(storageTournamentKey, aiMessages.innerHTML); 
         })
         .catch(() => {
             aiMessages.innerHTML += `<p><strong>Error:</strong> AI is unavailable.</p>`;
-            localStorage.setItem("aiChatHistory", aiMessages.innerHTML);
+            localStorage.setItem(storageTournamentKey, aiMessages.innerHTML);
         });
 
         aiInput.value = "";
@@ -131,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // Delay the page load to show the fading animation
                         setTimeout(() => {
                             form.submit(); 
-                        }, 500);
+                        }, 300);
                         return;
                     }
                 }
@@ -143,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Clear messages from UI and localStorage 
     clearChatBtn.addEventListener("click", function () {
         aiMessages.innerHTML = "";
-        localStorage.removeItem("aiChatHistory");
+        localStorage.removeItem(storageTournamentKey);
     });
 
     // Get CSRF token
