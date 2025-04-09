@@ -66,6 +66,12 @@ document.addEventListener("DOMContentLoaded", function () {
             aiMessages.scrollTop = aiMessages.scrollHeight; 
             localStorage.setItem(storageTournamentKey, aiMessages.innerHTML);  
         }
+
+        // Create a thinking message immediately while the AI response is being generated
+        const thinkingMessage = document.createElement("p");
+        thinkingMessage.innerHTML = `<strong>Pab:</strong> Thinking...`;
+        aiMessages.appendChild(thinkingMessage);
+        aiMessages.scrollTop = aiMessages.scrollHeight;
       
         // Send request to Django
         fetch(window.location.pathname + "chat/", {
@@ -83,7 +89,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Render AI Markdown properly
             const formattedAIMessage = marked.parse(data);
-            aiMessages.innerHTML += `<div><strong>Pab:</strong> ${formattedAIMessage}<div>`;
+
+            // Replace the thinking placeholder message with the actual generated response when it is ready 
+            thinkingMessage.innerHTML = `<strong>Pab:</strong> ${formattedAIMessage}`;
             aiMessages.scrollTop = aiMessages.scrollHeight; 
             localStorage.setItem(storageTournamentKey, aiMessages.innerHTML); 
         })

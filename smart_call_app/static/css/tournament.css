@@ -209,3 +209,22 @@
 .back-box button {
     width: 100%;
 }
+
+
+.winner-announcement {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.winner-announcement h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.winner-announcement h1 {
+    font-size: 48px;
+    color: gold;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+    margin-top: 0;
+}

@@ -47,6 +47,9 @@ class Duel(models.Model):
                     round_number=next_round,
                     phone_1=self.winner
                 )
+    
+    def __str__(self):
+        return f"{self.phone_1} vs {self.phone_2 or 'Waiting for opponent'}"
 
 # Model for the AI Chatbot
 class AIChatbot(models.Model):
