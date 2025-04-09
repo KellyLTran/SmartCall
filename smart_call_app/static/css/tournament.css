@@ -19,6 +19,7 @@
     margin-right: 800px;
     gap: 50px;
     padding: 20px;
+    margin-top: 50px;
 }
 
 
@@ -105,7 +106,7 @@
     right: 270px;
     width: 500px;
     height: 600px;
-    top: 210px;
+    top: 220px;
     /* background-color: #7C68B5;*/
     background: linear-gradient(180deg, #7C68B5, rgba(255, 255, 255, 0.15));
     
