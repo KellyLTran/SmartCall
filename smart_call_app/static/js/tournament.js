@@ -20,10 +20,25 @@ document.addEventListener("DOMContentLoaded", function () {
         aiMessages.innerHTML = savedMessages;
     }
 
+
+    // Display the AI pop-up when a choice button is right-clicked 
+    document.addEventListener("contextmenu", function (event) {
+        const choiceButton = event.target.closest(".choice-button");
+        if (choiceButton && !choiceButton.disabled) {  
+            event.preventDefault();
+            lastSelectedChoice = choiceButton.innerText;
+            // Get the opposing phone in the duel to compare with 
+            lastOpponentChoice = choiceButton.dataset.opponent; 
+            aiPopup.style.display = "block"; 
+        }
+    });
+
     // Send a predefined message to the AI based on user selection
     function sendPredefinedMessage(promptTemplate) {
         const predefinedPrompt = promptTemplate
-            .replace("selectedChoice_placeholder", lastSelectedChoice)
+            
+            // Replace all occurances of placeholder by splitting string and joining it with the last selected choice
+            .split("selectedChoice_placeholder").join(lastSelectedChoice) 
             .replace("opponent_placeholder", lastOpponentChoice); 
 
         isPredefined = true;
@@ -32,17 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
         aiInput.value = "";
         isPredefined = false;
     }
-
-    // Display the AI pop-up when a choice button is right-clicked 
-    document.addEventListener("contextmenu", function (event) {
-        const choiceButton = event.target.closest(".choice-button");
-        if (choiceButton && !choiceButton.disabled) {  
-            event.preventDefault();
-            lastSelectedChoice = choiceButton.innerText;
-            lastOpponentChoice = choiceButton.dataset.opponent; // Get the opposing phone in the duel to compare with 
-            aiPopup.style.display = "block"; 
-        }
-    });
 
     // Close AI pop-up 
     closeAiBtn.addEventListener("click", function () {
@@ -56,7 +60,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Append and display user message if it is not a predefined prompt
         if (!isPredefined) {
-            aiMessages.innerHTML += `<p><strong>You:</strong> ${message}</p>`;  
+            aiMessages.innerHTML += `<p><strong>You:</strong> <br> <em>${message}</em></p>`; 
+
+            // Automatically scroll to show the message when it is sent
+            aiMessages.scrollTop = aiMessages.scrollHeight; 
             localStorage.setItem(storageTournamentKey, aiMessages.innerHTML);  
         }
       
@@ -75,8 +82,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
 
             // Render AI Markdown properly
-            const formattedData = marked.parse(data);
-            aiMessages.innerHTML += `<div><strong>Pab:</strong> ${formattedData}<div>`;
+            const formattedAIMessage = marked.parse(data);
+            aiMessages.innerHTML += `<div><strong>Pab:</strong> ${formattedAIMessage}<div>`;
             aiMessages.scrollTop = aiMessages.scrollHeight; 
             localStorage.setItem(storageTournamentKey, aiMessages.innerHTML); 
         })
