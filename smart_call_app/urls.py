@@ -11,4 +11,5 @@ urlpatterns = [
     path('tournament/<int:tournament_id>/', tournament_page, name='tournament'),
     path('delete_tournament/<int:tournament_id>/', delete_tournament, name='delete_tournament'),
     path('tournament/<int:tournament_id>/chat/', ai_chat, name="ai_chat"),
+    path('tournament/<int:tournament_id>/winner/', winner_page, name='winner'),
 ]

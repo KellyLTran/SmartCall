@@ -26,7 +26,12 @@
                 {% for tournament in tournaments %}
                 <li>
                     <div class="tournament-item"> 
-                        <a href="{% url 'tournament' tournament.id %}" class="button">{{ tournament.name }}</a>
+
+                        {% if tournament.winner %}
+                            <a href="{% url 'winner' tournament.id %}" class="button">{{ tournament.name }}</a>
+                        {% else %}
+                            <a href="{% url 'tournament' tournament.id %}" class="button">{{ tournament.name }}</a>
+                        {% endif %}
 
                         <!-- Delete Button -->          
                         <form method="post" action="{% url 'delete_tournament' tournament.id %}">

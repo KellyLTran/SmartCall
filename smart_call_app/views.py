@@ -177,63 +177,60 @@ def tournament_page(request, tournament_id):
                 if final_duel.winner and not tournament.winner: 
                     tournament.winner = final_duel.winner
                     tournament.save()
-                    return redirect('tournament', tournament_id=tournament.id)
+                    return redirect('winner', tournament_id=tournament.id)
         return redirect('tournament', tournament_id=tournament.id)
 
+
+    # Functionality to filter and display only two rounds at a time
+    last_completed_round = None
+    incomplete_rounds = [] 
+
+    if rounds: 
+        sorted_rounds = sorted(rounds.keys())
+
+        # Iterate through each round to get the most recently completed round
+        for round_num in sorted_rounds:
+            round_duels = rounds[round_num]
+
+            # If all duels in this round have a winner, it is completed 
+            if all(duel.winner for duel in round_duels):
+                last_completed_round = round_num
+            else: 
+                incomplete_rounds.append(round_num)
+                if len(incomplete_rounds) >= 2:
+                    break
+        
+    filtered_rounds = {}
+    if last_completed_round:
+
+        # Display the last completed round only if the user has not selected a winner in the new round yet
+        if incomplete_rounds and not any(duel.winner for duel in rounds[incomplete_rounds[0]]):
+            filtered_rounds[last_completed_round] = rounds[last_completed_round]
+
+        # If there are no more incomplete rounds (final winner chosen), still display the last completed round
+        elif not incomplete_rounds: 
+            filtered_rounds[last_completed_round] = rounds[last_completed_round]
+    
+    # Always display two incomplete rounds to account for advancing winners
+    for round_num in incomplete_rounds:
+        filtered_rounds[round_num] = rounds[round_num]
+
+    return render(request, 'tournament.html', {
+        'tournament': tournament,
+        'rounds': filtered_rounds,
+    })
+
+
+@login_required
+def winner_page(request, tournament_id):
+    tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
     duels = Duel.objects.filter(tournament=tournament).order_by('round_number')
+
     rounds = defaultdict(list)
     for duel in duels:
         rounds[duel.round_number].append(duel)
 
-
-    if tournament.winner: 
-        rounds_to_display = rounds
-
-        # Debug statement
-        for round_num, duels_in_round in rounds.items():
-            print(f"Round {round_num}:")
-            for duel in duels_in_round:
-                print(f" Duel {duel.id} | {duel.phone_1} vs {duel.phone_2} | Winner: {duel.winner}")
-   
-    else: 
-        # Functionality to filter and display only two rounds at a time
-        last_completed_round = None
-        incomplete_rounds = [] 
-
-        if rounds: 
-            sorted_rounds = sorted(rounds.keys())
-
-            # Iterate through each round to get the most recently completed round
-            for round_num in sorted_rounds:
-                round_duels = rounds[round_num]
-
-                # If all duels in this round have a winner, it is completed 
-                if all(duel.winner for duel in round_duels):
-                    last_completed_round = round_num
-                else: 
-                    incomplete_rounds.append(round_num)
-                    if len(incomplete_rounds) >= 2:
-                        break
-            
-        filtered_rounds = {}
-        if last_completed_round:
-
-            # Display the last completed round only if the user has not selected a winner in the new round yet
-            if incomplete_rounds and not any(duel.winner for duel in rounds[incomplete_rounds[0]]):
-                filtered_rounds[last_completed_round] = rounds[last_completed_round]
-
-            # If there are no more incomplete rounds (final winner chosen), still display the last completed round
-            elif not incomplete_rounds: 
-                filtered_rounds[last_completed_round] = rounds[last_completed_round]
-        
-        # Always display two incomplete rounds to account for advancing winners
-        for round_num in incomplete_rounds:
-            filtered_rounds[round_num] = rounds[round_num]
-
-        rounds_to_display = filtered_rounds
-
-
-    return render(request, 'tournament.html', {
+    return render(request, 'winner.html', {
         'tournament': tournament,
-        'rounds': rounds_to_display,
+        'rounds': dict(rounds),
     })

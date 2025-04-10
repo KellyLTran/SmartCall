@@ -9,11 +9,6 @@
 
     <h1 class="tournament-name">{{ tournament.name }} Tournament</h1>
 
-    <!-- Debug Statement -->
-    <pre>
-        Rounds data: {{ rounds }}
-    </pre>
-
     {% if tournament.winner %}
         <div class="winner-announcement">
             <h2>🏆 Final Winner Test 🏆</h2>
@@ -80,38 +75,6 @@
             </div>
         {% endfor %}
     </div>
-
-    <!-- Recap all rounds after final winner chosen --> 
-    {% if tournament.winner %}
-        {% for round, round_duels in rounds.items %}
-         <!-- Debug Statement -->
-         <pre>
-            Rounds data after Win: {{ rounds }} <!-- TODO: Does not properly get round data at all -->
-        </pre>
-        <div class="round-column">
-            <h2>Round {{ round }}</h2>
-
-            {% for duel in round_duels %}
-                <div class="duel">
-                    <div class="competitor-box">
-                        <button class="button" disabled>
-                            {{ duel.phone_1 }}
-                        </button>
-
-                        <button class="button" disabled>
-                            {{ duel.phone_2 }}
-                        </button>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-        {% endfor %}
-
-        <div class="winner-announcement">
-            <h2>🏆 Final Winner 🏆</h2>
-            <h1>{{ tournament.winner }}</h1>
-        </div>
-    {% endif %}
 
 
     <!-- AI Assistant Popup -->
