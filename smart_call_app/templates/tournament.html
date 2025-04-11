@@ -9,18 +9,10 @@
 
     <h1 class="tournament-name">{{ tournament.name }} Tournament</h1>
 
-    {% if tournament.winner %}
-        <div class="winner-announcement">
-            <h2>🏆 Final Winner Test 🏆</h2>
-            <h1>{{ tournament.winner }}</h1>
-        </div>
-    {% else %}
-        <p class="tournament-name winner-choice">
-            <strong> Left-click</strong> any choice to advance your preferred option. <br>
-            <strong> Right-click</strong> any choice for AI insights from Pab (Phone-A-Bot)!
-        </p>
-    {% endif %}
-
+    <p class="tournament-name winner-choice">
+        <strong> Left-click</strong> any choice to advance your preferred option. <br>
+        <strong> Right-click</strong> any choice for AI insights from Pab (Phone-A-Bot)!
+    </p>
 
     <div class="bracket-box">
 

@@ -20,8 +20,15 @@
     gap: 50px;
     padding: 20px;
     margin-top: 50px;
+    align-items: center;
 }
 
+.winner-box {
+    display: flex;
+    justify-content: center;
+    margin-right: 0px;
+    margin-top: 30px;
+}
 
 .round-column {
     flex-direction: column;
@@ -210,21 +217,37 @@
     width: 100%;
 }
 
-
-.winner-announcement {
-    text-align: center;
-    margin-top: 50px;
-    margin-bottom: 50px;
+.final-round {
+    background: #7c68b5;
+    border-radius: 20px;
+    box-shadow: 0 0 25px #9e89d8, 0 0 25px #7c68b5;
+    padding: 30px;
+    padding-right: 38px;
 }
 
-.winner-announcement h2 {
-    font-size: 32px;
-    margin-bottom: 10px;
+.final-round .duel {
+    border: none;
+    box-shadow: none;
+    margin-bottom: 0px;
 }
 
-.winner-announcement h1 {
-    font-size: 48px;
-    color: gold;
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
-    margin-top: 0;
+.final-round .competitor-box {
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+.final-round .competitor-box .winner {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.final-winner {
+    margin-top: 0px;
+    font-size: 30px;
+}
+
+.winner-text {
+    padding: 15px;
+    width: 100%;
 }
