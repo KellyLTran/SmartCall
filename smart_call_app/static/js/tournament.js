@@ -80,7 +80,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "X-CSRFToken": getCSRFToken(),
             },
-            body: `query=${encodeURIComponent(message)}`,
+
+            // Track the last selected choice for the AI bot to reference during the current session
+            body: `query=${encodeURIComponent(message)}&selectedChoice=${encodeURIComponent(lastSelectedChoice)}&opponentChoice=${encodeURIComponent(lastOpponentChoice)}`
+
         })
         .then(response => response.text())
 

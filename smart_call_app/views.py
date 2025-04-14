@@ -25,9 +25,18 @@ def get_ai_response(user_input):
 @login_required
 def ai_chat(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
-    user_query = request.POST.get("query", "")
 
-    ai_response = get_ai_response(user_query)
+    user_query = request.POST.get("query", "")
+    selected_choice = request.POST.get("selectedChoice", "")
+    opponent_choice = request.POST.get("opponentChoice", "")
+
+    # Build a custom AI prompt to retain memory of selected phone during user's custom query
+    full_prompt = (
+        f"You are assisting with the phone '{selected_choice}'. "
+        f"If relevant, you can also compare it with '{opponent_choice}'. "
+        f"Here is the user's question: {user_query}"
+    )
+    ai_response = get_ai_response(full_prompt)
 
     # Save chat history
     chat_history = AIChatbot.objects.create(
