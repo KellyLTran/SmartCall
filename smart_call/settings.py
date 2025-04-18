@@ -32,8 +32,10 @@ GOOGLE_GEMINI_API_KEY = env("GOOGLE_GEMINI_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = [
+    'smartcall-qa5a.onrender.com', 
+    'localhost', 
+    '127.0.0.1']
 
 # Application definition
 
