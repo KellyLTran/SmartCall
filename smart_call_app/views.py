@@ -36,7 +36,16 @@ def ai_chat(request, tournament_id):
         f"If relevant, you can also compare it with '{opponent_choice}'. "
         f"Here is the user's question: {user_query}"
     )
-    ai_response = get_ai_response(full_prompt)
+
+    # Account for AI api token limitations
+    try:
+        ai_response = get_ai_response(full_prompt)
+    except Exception as e:
+
+        return HttpResponse(
+            "Pab’s received too many requests and needs a short break. Try again soon!",
+            status=503
+        )
 
     # Save chat history
     chat_history = AIChatbot.objects.create(

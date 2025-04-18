@@ -99,7 +99,8 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem(storageTournamentKey, aiMessages.innerHTML); 
         })
         .catch(() => {
-            aiMessages.innerHTML += `<p><strong>Error:</strong> AI is unavailable.</p>`;
+            aiMessages.innerHTML += `<p><strong>Error:</strong> Pab’s received too many requests and needs a short break. Try again soon!</p>`;
+            aiMessages.scrollTop = aiMessages.scrollHeight;
             localStorage.setItem(storageTournamentKey, aiMessages.innerHTML);
         });
 
