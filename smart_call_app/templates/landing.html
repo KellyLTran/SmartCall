@@ -6,35 +6,36 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/landing.css' %}">
 </head>
 <body>
+    <div class="page-container">
 
-    <!-- Welcome Message -->
-    <div class="left-content">
-        <h1>Make a smart call with SmartCall</h1>
-        <p>A tournament-style decision maker with an AI assistant to guide your smartphone choices.</p>
-    </div>
-    
-
-    <div class="auth-box">
-        <!-- Login Form -->
-        <div id="loginBox">
-            <h2>Login</h2>
-            <form method="post" action="{% url 'login' %}">
-                {% csrf_token %}
-                {{ login_form.as_p }}
-                <button type="submit">Log In</button>
-            </form>
-            <p> New here? <a href="#" onclick="toggleForms()">Create an account</a></p>
+        <!-- Welcome Message -->
+        <div class="left-content">
+            <h1>Make a smart call with SmartCall</h1>
+            <p>A tournament-style decision maker with an AI assistant to guide your smartphone choices.</p>
         </div>
+        
+        <div class="auth-box">
+            <!-- Login Form -->
+            <div id="loginBox">
+                <h2>Login</h2>
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    {{ login_form.as_p }}
+                    <button type="submit">Log In</button>
+                </form>
+                <p> New here? <a href="#" onclick="toggleForms()">Create an account</a></p>
+            </div>
 
-        <!-- Registeration Form -->
-        <div class="hidden" id="registerBox">
-            <h2>Register</h2>
-            <form method="post" action="{% url 'register' %}">
-                {% csrf_token %}
-                {{ register_form.as_p }}
-                <button type="submit">Sign Up</button>
-            </form>
-            <p> Already have an account? <a href="#" onclick="toggleForms()">Log in</a></p>
+            <!-- Registeration Form -->
+            <div class="hidden" id="registerBox">
+                <h2>Register</h2>
+                <form method="post" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    {{ register_form.as_p }}
+                    <button type="submit">Sign Up</button>
+                </form>
+                <p> Already have an account? <a href="#" onclick="toggleForms()">Log in</a></p>
+            </div>
         </div>
     </div>
 

@@ -5,18 +5,14 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/tournament.css' %}">
 </head>
-<body>
+<body data-tournament-id="{{ tournament.id }}">
 
     <h1 class="tournament-name">{{ tournament.name }} Tournament</h1>
 
-    {% if tournament.winner %}
-        <h2 class="tournament-name winner-choice"> Ultimate Winner: {{ tournament.winner }}</h2>
-    {% else %}
-        <p class="tournament-name winner-choice">
-            <strong> Left-click</strong> any choice to advance your preferred option. <br>
-            <strong> Right-click</strong> any choice for AI insights from Pab (Phone-A-Bot)!
-        </p>
-    {% endif %}
+    <p class="tournament-name winner-choice">
+        <strong> Left-click</strong> any choice to advance your preferred option. <br>
+        <strong> Right-click</strong> any choice for AI insights from Pab (Phone-A-Bot)!
+    </p>
 
     <div class="bracket-box">
 
@@ -28,9 +24,10 @@
             <!-- Get and display each duel in the tournament -->
             {% for duel in round_duels %} 
                 <div class="duel">
-                    <form method="post">
+                    <form method="post" class="duel-form" data-round="{{ round }}">
                         {% csrf_token %}
                         <input type="hidden" name="duel_id" value="{{ duel.id }}">
+                        <input type="hidden" name="winner" value="">
 
                         <div class="competitor-box">
                             <!-- If a duel has a winner, disable the buttons and highlight the winner -->
@@ -45,12 +42,23 @@
                                 </button>
 
                             {% else %}
-                                <button type="submit" class="button choice-button" name="winner" value="{{ duel.phone_1 }}" required>
-                                <span>{{ duel.phone_1 }}</span>
+                                <button type="submit" 
+                                    class="button choice-button {% if not duel.phone_1 %}waiting{% endif %}"
+                                    name="winner" 
+                                    value="{{ duel.phone_1 }}" 
+                                    data-opponent="{{ duel.phone_2|default_if_none:'' }}"
+                                    required>
+                                    <span>{{ duel.phone_1 }}</span>
+                                </button>
                 
-                                <button type="submit" class="button choice-button {% if not duel.phone_2 %}waiting{% endif %}" name="winner" value="{{ duel.phone_2 }}" 
+                                <button type="submit" 
+                                    class="button choice-button {% if not duel.phone_2 %}waiting{% endif %}" 
+                                    name="winner" 
+                                    value="{{ duel.phone_2 }}" 
+                                    data-opponent="{{ duel.phone_1|default_if_none:'' }}"
                                     {% if not duel.phone_2 %}disabled{% endif %}>
                                     {{ duel.phone_2|default:"Waiting for opponent" }}
+                                </button>
                             {% endif %}
                         </div>
                     </form>
@@ -59,6 +67,7 @@
             </div>
         {% endfor %}
     </div>
+
 
     <!-- AI Assistant Popup -->
     <div id="ai-popup" class="popup">
@@ -75,7 +84,7 @@
         <!-- Predefined Prompts -->
         <div class="prompt-icons">
             <button class="button prompt-btn" 
-                onclick="sendPredefinedMessage('Summarize the key features of selectedChoice_placeholder, such as price range, performance, RAM, camera specs, battery life, and software experience. Please keep it concise and straightforward.')">
+                onclick="sendPredefinedMessage('Summarize the key features of selectedChoice_placeholder, such as price range, performance, RAM, camera specs, battery life, and software experience. Please keep it concise and straightforward. Also, specify this information is for selectedChoice_placeholder.')">
                 Phone Overview</button>
             <button class="button prompt-btn" 
                 onclick="sendPredefinedMessage('Ask the user about their budget, main phone usage, such as for gaming, photography, or everyday use and what they prioritize most, such as battery, camera, speed, or price for selectedChoice_placeholder. Please keep it concise and straightforward.')">
@@ -102,10 +111,10 @@
         <a href="{% url 'home' %}" class="button">Back to Home</a>
     </div>
 
+    <!-- Import library to convert and render markdown language properly -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script src="{% static 'js/tournament.js' %}"></script>
 </body>
 
-<!-- Import library to convert and render markdown language properly -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<script src="{% static 'js/tournament.js' %}"></script>
 </html>

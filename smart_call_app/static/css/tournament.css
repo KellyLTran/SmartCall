@@ -19,6 +19,15 @@
     margin-right: 800px;
     gap: 50px;
     padding: 20px;
+    margin-top: 50px;
+    align-items: center;
+}
+
+.winner-box {
+    display: flex;
+    justify-content: center;
+    margin-right: 0px;
+    margin-top: 30px;
 }
 
 .round-column {
@@ -27,6 +36,14 @@
     width: 280px;
     text-align: center;
     margin-top: 130px;
+}
+
+/* Fade the column smoothly when it is removed */
+.round-column.fade-out {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0;
+    transform: translateX(-50px);
+    pointer-events: none;
 }
 
 .round-column h2 {
@@ -96,7 +113,7 @@
     right: 270px;
     width: 500px;
     height: 600px;
-    top: 210px;
+    top: 220px;
     /* background-color: #7C68B5;*/
     background: linear-gradient(180deg, #7C68B5, rgba(255, 255, 255, 0.15));
     
@@ -197,5 +214,40 @@
 }
 
 .back-box button {
+    width: 100%;
+}
+
+.final-round {
+    background: #7c68b5;
+    border-radius: 20px;
+    box-shadow: 0 0 25px #9e89d8, 0 0 25px #7c68b5;
+    padding: 30px;
+    padding-right: 38px;
+}
+
+.final-round .duel {
+    border: none;
+    box-shadow: none;
+    margin-bottom: 0px;
+}
+
+.final-round .competitor-box {
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+.final-round .competitor-box .winner {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.final-winner {
+    margin-top: 0px;
+    font-size: 30px;
+}
+
+.winner-text {
+    padding: 15px;
     width: 100%;
 }

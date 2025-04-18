@@ -25,9 +25,27 @@ def get_ai_response(user_input):
 @login_required
 def ai_chat(request, tournament_id):
     tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
-    user_query = request.POST.get("query", "")
 
-    ai_response = get_ai_response(user_query)
+    user_query = request.POST.get("query", "")
+    selected_choice = request.POST.get("selectedChoice", "")
+    opponent_choice = request.POST.get("opponentChoice", "")
+
+    # Build a custom AI prompt to retain memory of selected phone during user's custom query
+    full_prompt = (
+        f"You are assisting with the phone '{selected_choice}'. "
+        f"If relevant, you can also compare it with '{opponent_choice}'. "
+        f"Here is the user's question: {user_query}"
+    )
+
+    # Account for AI api token limitations
+    try:
+        ai_response = get_ai_response(full_prompt)
+    except Exception as e:
+
+        return HttpResponse(
+            "Pab’s received too many requests and needs a short break. Try again soon!",
+            status=503
+        )
 
     # Save chat history
     chat_history = AIChatbot.objects.create(
@@ -79,15 +97,24 @@ def home_page(request):
     if request.method == 'POST':
         form = TournamentForm(request.POST)
         if form.is_valid():
-            tournament = form.save(commit=False)
-            tournament.user = request.user
-            tournament.save()
-            
+    
             # Get choices from the form
             choices = []
             for key, value in request.POST.items():
                 if key.startswith("choice"):
                     choices.append(value)
+
+            # Check for duplicates by converting all to lowercase and putting them in a set
+            lowercased_choices = [choice.lower() for choice in choices]
+
+            # If the set length is different from the original length of choices, then there were duplicates removed
+            if len(lowercased_choices) != len(set(lowercased_choices)):
+                messages.error(request, "Duplicate choices are not allowed. Please enter unique phone names.")
+                return redirect('home')
+
+            tournament = form.save(commit=False)
+            tournament.user = request.user
+            tournament.save()
 
             # Create duels from the choices for the first round
             if len(choices) >= 2:
@@ -123,7 +150,6 @@ def delete_tournament(request, tournament_id):
 
     if request.method == "POST":
         tournament.delete()
-        messages.success(request, "Tournament deleted successfully.")
         return redirect('home') 
 
     return redirect('home')
@@ -139,6 +165,12 @@ def tournament_page(request, tournament_id):
     rounds = defaultdict(list)
     for duel in duels:
         rounds[duel.round_number].append(duel)
+
+    # Debug statement
+    for round_num, duels_in_round in rounds.items():
+        print(f"Round {round_num}:")
+        for duel in duels_in_round:
+            print(f" Duel {duel.id} | {duel.phone_1} vs {duel.phone_2} | Winner: {duel.winner}")
 
     # When a choice is selected as a winner in the duel, save and advance the winner
     if request.method == "POST":
@@ -163,9 +195,9 @@ def tournament_page(request, tournament_id):
                 if final_duel.winner and not tournament.winner: 
                     tournament.winner = final_duel.winner
                     tournament.save()
-                    return redirect('tournament', tournament_id=tournament.id)
-
+                    return redirect('winner', tournament_id=tournament.id)
         return redirect('tournament', tournament_id=tournament.id)
+
 
     # Functionality to filter and display only two rounds at a time
     last_completed_round = None
@@ -200,5 +232,23 @@ def tournament_page(request, tournament_id):
     # Always display two incomplete rounds to account for advancing winners
     for round_num in incomplete_rounds:
         filtered_rounds[round_num] = rounds[round_num]
-    
-    return render(request, 'tournament.html', {'tournament': tournament, 'rounds': filtered_rounds})
+
+    return render(request, 'tournament.html', {
+        'tournament': tournament,
+        'rounds': filtered_rounds,
+    })
+
+
+@login_required
+def winner_page(request, tournament_id):
+    tournament = get_object_or_404(Tournament, id=tournament_id, user=request.user)
+    duels = Duel.objects.filter(tournament=tournament).order_by('round_number')
+
+    rounds = defaultdict(list)
+    for duel in duels:
+        rounds[duel.round_number].append(duel)
+
+    return render(request, 'winner.html', {
+        'tournament': tournament,
+        'rounds': dict(rounds),
+    })
