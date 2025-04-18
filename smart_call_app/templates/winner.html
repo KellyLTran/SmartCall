@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ tournament.name }} Tournament</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tournament.css' %}">
+</head>
+<body>
+
+    <h1 class="tournament-name">{{ tournament.name }} Tournament</h1>
+    <div class="tournament-name winner-choice">
+        <br>
+        <h2 class="final-round winner-text"> {{ tournament.name }} Winner: {{ tournament.winner }}</h2>
+    </div>
+
+    <div class="bracket-box winner-box">
+        {% for round_num, duels_in_round in rounds.items %}
+            <div class="round-column {% if forloop.last %}final-round{% endif %}">
+                {% if forloop.last %}
+                    <h2 class="final-winner">Final Winner</h2>
+                {% else %}
+                    <h2>Round {{ round_num }}</h2>
+                {% endif %}
+    
+                {% for duel in duels_in_round %}
+                <div class="duel">
+                    <div class="competitor-box">
+    
+                        {% if duel.winner %}
+                            <button class="button {% if duel.winner == duel.phone_1 %}winner{% else %}loser{% endif %}" disabled>
+                                {{ duel.phone_1|default:"Waiting for opponent" }}
+                            </button>
+    
+                            <button class="button {% if duel.winner == duel.phone_2 %}winner{% else %}loser{% endif %}" disabled
+                                {% if not duel.phone_2 %}disabled{% endif %}>
+                                {{ duel.phone_2|default:"Waiting for opponent" }}
+                            </button>
+                        {% else %}
+                            <button class="button" disabled>
+                                {{ duel.phone_1|default:"Waiting for opponent" }}
+                            </button>
+    
+                            <button class="button" disabled>
+                                {{ duel.phone_2|default:"Waiting for opponent" }}
+                            </button>
+                        {% endif %}
+    
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    
+
+    <!-- Logout Button -->
+    <div class="logout-box">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="button">Logout</button>
+        </form>
+    </div>
+
+    <!-- Back to Home Button -->
+    <div class="back-box">
+        <a href="{% url 'home' %}" class="button">Back to Home</a>
+    </div>
+
+</body>
+</html>
