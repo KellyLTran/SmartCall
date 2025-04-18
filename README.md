@@ -2,6 +2,8 @@
 
 **Make a smart call with SmartCall!**
 
+📲 [**Try SmartCall Live** – Make your smart call now!](https://smartcall-qa5a.onrender.com)
+
 ---
 
 ## 🌟 Project Overview
