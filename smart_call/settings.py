@@ -21,13 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&^c@oyq_uacv-(#zz!uiywd978v#!l-2$27&hvm)90rf+3+rv('
-
 
 # Initialize environment variables and get the AI API key
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 GOOGLE_GEMINI_API_KEY = env("GOOGLE_GEMINI_API_KEY")
 
 
